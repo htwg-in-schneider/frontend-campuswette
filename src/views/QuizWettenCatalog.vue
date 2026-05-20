@@ -26,29 +26,38 @@
       </div>
     </section>
 
-    <section id="quizwetten" class="section">
-      <div class="container">
-        <p class="eyebrow">Beispiele</p>
-        <h2>Aktuelle Quiz-Wetten</h2>
-        <p>Anzahl Quiz-Wetten: {{ quizWetten.length }}</p>
+<section id="quizwetten" class="section">
+  <div class="container">
+    <p class="eyebrow">Beispiele</p>
+    <h2>Aktuelle Quiz-Wetten</h2>
 
-        <div class="cards">
-          <QuizWetteCard
-            v-for="quizWette in quizWetten"
-            :key="quizWette.id"
-            :quiz-wette="quizWette"
-            @show-details="goToDetails"
-          />
-        </div>
-      </div>
-    </section>
+    <p v-if="isLoading">Quiz-Wetten werden geladen...</p>
+
+    <p v-if="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </p>
+
+    <div v-if="!isLoading && quizWetten.length > 0" class="cards">
+      <QuizWetteCard
+        v-for="quizWette in quizWetten"
+        :key="quizWette.id"
+        :quiz-wette="quizWette"
+        @show-details="goToDetails"
+      />
+    </div>
+
+    <p v-if="!isLoading && quizWetten.length === 0 && !errorMessage">
+      Keine Quiz-Wetten vorhanden.
+    </p>
+  </div>
+</section>
   </main>
 </template>
 
 <script>
-import { quizWetten } from '../data/quizwetten'
 import SpecialBanner from '../components/SpecialBanner.vue'
 import QuizWetteCard from '../components/QuizWetteCard.vue'
+import { fetchQuizWetten } from '../services/quizWetteService'
 
 export default {
   components: {
@@ -58,11 +67,30 @@ export default {
 
   data() {
     return {
-      quizWetten
+      quizWetten: [],
+      isLoading: false,
+      errorMessage: ''
     }
   },
 
+  async mounted() {
+    await this.loadQuizWetten()
+  },
+
   methods: {
+    async loadQuizWetten() {
+      this.isLoading = true
+      this.errorMessage = ''
+
+      try {
+        this.quizWetten = await fetchQuizWetten()
+      } catch (error) {
+        this.errorMessage = 'Die Quiz-Wetten konnten nicht vom Backend geladen werden.'
+      } finally {
+        this.isLoading = false
+      }
+    },
+
     goToDetails(quizWette) {
       this.$router.push(`/quizwetten/${quizWette.id}`)
     }

@@ -145,4 +145,26 @@ p {
   .cards {
     grid-template-columns: 1fr;
   }
+  .error-message {
+  color: #fb7185;
+  font-weight: 700;
+  margin: 1rem 0;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.detail-card {
+  max-width: 800px;
+}
+
+.answers {
+  list-style-position: inside;
+  color: var(--muted);
+  margin: 1rem 0;
+}
 }
