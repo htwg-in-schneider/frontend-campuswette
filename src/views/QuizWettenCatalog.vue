@@ -39,6 +39,8 @@
       {{ errorMessage }}
     </p>
 
+    <QuizWetteFilter @filter="loadQuizWetten" />
+
     <div v-if="!isLoading && quizWetten.length > 0" class="cards">
       <QuizWetteCard
         v-for="quizWette in quizWetten"
@@ -59,19 +61,26 @@
 <script>
 import SpecialBanner from '../components/SpecialBanner.vue'
 import QuizWetteCard from '../components/QuizWetteCard.vue'
+import QuizWetteFilter from '../components/QuizWetteFilter.vue'
 import { fetchQuizWetten } from '../services/quizWetteService'
 
 export default {
   components: {
     SpecialBanner,
-    QuizWetteCard
+    QuizWetteCard,
+    QuizWetteFilter
   },
 
   data() {
     return {
       quizWetten: [],
       isLoading: false,
-      errorMessage: ''
+      errorMessage: '',
+      currentFilters: {
+        search: '',
+        status: '',
+        schwierigkeit: ''
+      }
     }
   },
 
@@ -80,12 +89,15 @@ export default {
   },
 
   methods: {
-    async loadQuizWetten() {
+    async loadQuizWetten(filters = this.currentFilters) {
+      console.log('Catalog erhält Filter:', filters)
+
       this.isLoading = true
       this.errorMessage = ''
+      this.currentFilters = filters
 
       try {
-        this.quizWetten = await fetchQuizWetten()
+        this.quizWetten = await fetchQuizWetten(filters)
       } catch (error) {
         this.errorMessage = 'Die Quiz-Wetten konnten nicht vom Backend geladen werden.'
       } finally {

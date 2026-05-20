@@ -15,14 +15,13 @@ export async function fetchQuizWetten(params = {}) {
     searchParams.append('schwierigkeit', params.schwierigkeit)
   }
 
-  if (params.professorId) {
-    searchParams.append('professorId', params.professorId)
-  }
-
   const queryString = searchParams.toString()
+
   const url = queryString
     ? `${API_BASE_URL}/quizwetten?${queryString}`
     : `${API_BASE_URL}/quizwetten`
+
+  console.log('Lade Quiz-Wetten von:', url)
 
   const response = await fetch(url)
 
