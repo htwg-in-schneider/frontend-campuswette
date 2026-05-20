@@ -56,24 +56,22 @@
     </section>
 
     <section id="quizwetten" class="section">
-      <div class="container">
-        <p class="eyebrow">Beispiele</p>
-        <h2>Aktuelle Quiz-Wetten</h2>
+      <div class="cards">
+  <article
+    v-for="quizWette in quizWetten"
+    :key="quizWette.id"
+    class="card"
+  >
+    <h3>{{ quizWette.frage }}</h3>
+    <p>Thema: {{ quizWette.thema }}</p>
+    <p>Status: {{ quizWette.status }}</p>
+    <p>Schwierigkeit: {{ quizWette.schwierigkeit }}</p>
 
-        <div class="cards">
-          <article class="card">
-            <h3>Wofür steht CRUD?</h3>
-            <p>Thema: Web-Technologien</p>
-            <p>Status: Aktiv</p>
-          </article>
-
-          <article class="card">
-            <h3>Welche Beziehung beschreibt Professor zu Quiz-Wette?</h3>
-            <p>Thema: Datenbanken</p>
-            <p>Status: Entwurf</p>
-          </article>
-        </div>
-      </div>
+    <button class="btn" @click="showDetails(quizWette)">
+      Details
+    </button>
+  </article>
+</div>
     </section>
   </main>
 
@@ -83,3 +81,19 @@
     </div>
   </footer>
 </template>
+<script>
+import { quizWetten } from './data/quizwetten'
+
+export default {
+  data() {
+    return {
+      quizWetten
+    }
+  },
+  methods: {
+    showDetails(quizWette) {
+      alert(quizWette.beschreibung)
+    }
+  }
+}
+</script>
