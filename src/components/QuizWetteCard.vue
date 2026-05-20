@@ -5,13 +5,15 @@
     <p>Status: {{ quizWette.status }}</p>
     <p>Schwierigkeit: {{ quizWette.schwierigkeit }}</p>
 
-    <button class="btn" @click="$emit('show-details', quizWette)">
-      Details
-    </button>
+    <AppButton @click="$emit('show-details', quizWette)">
+        Details
+    </AppButton>
   </article>
 </template>
 
 <script setup>
+import AppButton from './AppButton.vue'
+
 defineProps({
   quizWette: {
     type: Object,
