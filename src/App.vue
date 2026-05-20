@@ -1,29 +1,8 @@
 <template>
-  <header class="site-header">
-    <div class="container nav">
-      <div class="logo">CampusWette</div>
-
-      <nav>
-        <a href="#home">Start</a>
-        <a href="#features">Funktionen</a>
-        <a href="#quizwetten">Quiz-Wetten</a>
-      </nav>
-    </div>
-  </header>
+  <Navbar />
 
   <main>
-    <section id="home" class="hero">
-      <div class="container hero-content">
-        <p class="eyebrow">Interaktive Lernplattform</p>
-        <h1>CampusWette macht Vorlesungen spannender</h1>
-        <p>
-          CampusWette verbindet Studium, Spielwährung und Quiz-Wetten.
-          Studierende können aktiv teilnehmen, während Lehrende interaktive
-          Quiz-Formate für ihre Vorlesungen erstellen.
-        </p>
-        <a href="#quizwetten" class="btn">Quiz-Wetten ansehen</a>
-      </div>
-    </section>
+    <SpecialBanner />
 
     <section id="features" class="section">
       <div class="container">
@@ -56,35 +35,39 @@
     </section>
 
     <section id="quizwetten" class="section">
-      <div class="cards">
-  <article
-    v-for="quizWette in quizWetten"
-    :key="quizWette.id"
-    class="card"
-  >
-    <h3>{{ quizWette.frage }}</h3>
-    <p>Thema: {{ quizWette.thema }}</p>
-    <p>Status: {{ quizWette.status }}</p>
-    <p>Schwierigkeit: {{ quizWette.schwierigkeit }}</p>
+      <div class="container">
+        <p class="eyebrow">Beispiele</p>
+        <h2>Aktuelle Quiz-Wetten</h2>
 
-    <button class="btn" @click="showDetails(quizWette)">
-      Details
-    </button>
-  </article>
-</div>
+        <div class="cards">
+          <QuizWetteCard
+            v-for="quizWette in quizWetten"
+            :key="quizWette.id"
+            :quiz-wette="quizWette"
+            @show-details="showDetails"
+          />
+        </div>
+      </div>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container">
-      <p>CampusWette · Web-Technologien Aufgabe 4</p>
-    </div>
-  </footer>
+  <Footer />
 </template>
+
 <script>
 import { quizWetten } from './data/quizwetten'
+import Navbar from './components/Navbar.vue'
+import SpecialBanner from './components/SpecialBanner.vue'
+import QuizWetteCard from './components/QuizWetteCard.vue'
+import Footer from './components/Footer.vue'
 
 export default {
+  components: {
+    Navbar,
+    SpecialBanner,
+    QuizWetteCard,
+    Footer
+  },
   data() {
     return {
       quizWetten
