@@ -5,9 +5,15 @@
     <p>Status: {{ quizWette.status }}</p>
     <p>Schwierigkeit: {{ quizWette.schwierigkeit }}</p>
 
-    <AppButton @click="$emit('show-details', quizWette)">
+    <div class="form-actions">
+      <AppButton @click="$emit('show-details', quizWette)">
         Details
-    </AppButton>
+      </AppButton>
+
+      <RouterLink class="small-btn" :to="`/quizwetten/${quizWette.id}/edit`">
+        Bearbeiten
+      </RouterLink>
+    </div>
   </article>
 </template>
 

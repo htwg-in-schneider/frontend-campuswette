@@ -30,7 +30,9 @@
   <div class="container">
     <p class="eyebrow">Beispiele</p>
     <h2>Aktuelle Quiz-Wetten</h2>
-
+    <RouterLink to="/quizwetten/new" class="btn">
+        Neue Quiz-Wette
+    </RouterLink>
     <p v-if="isLoading">Quiz-Wetten werden geladen...</p>
 
     <p v-if="errorMessage" class="error-message">
