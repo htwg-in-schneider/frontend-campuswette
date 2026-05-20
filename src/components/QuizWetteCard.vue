@@ -5,6 +5,10 @@
     <p>Status: {{ quizWette.status }}</p>
     <p>Schwierigkeit: {{ quizWette.schwierigkeit }}</p>
 
+    <p v-if="quizWette.professor">
+      Professor: {{ quizWette.professor.name }}
+    </p>
+
     <div class="form-actions">
       <AppButton @click="$emit('show-details', quizWette)">
         Details

@@ -29,6 +29,20 @@
           <option value="SCHWER">Schwer</option>
         </select>
       </label>
+
+      <label>
+        Professor
+        <select v-model="filters.professorId">
+          <option value="">Alle Professoren</option>
+          <option
+            v-for="professor in professors"
+            :key="professor.id"
+            :value="professor.id"
+          >
+            {{ professor.name }}
+          </option>
+        </select>
+      </label>
     </div>
 
     <div class="form-actions">
@@ -46,25 +60,28 @@
 <script setup>
 import { reactive } from 'vue'
 
+defineProps({
+  professors: {
+    type: Array,
+    required: true
+  }
+})
+
 const emit = defineEmits(['filter'])
 
 const filters = reactive({
   search: '',
   status: '',
-  schwierigkeit: ''
+  schwierigkeit: '',
+  professorId: ''
 })
 
 function submitFilter() {
-  console.log('Filter werden gesendet:', {
-    search: filters.search,
-    status: filters.status,
-    schwierigkeit: filters.schwierigkeit
-  })
-
   emit('filter', {
     search: filters.search,
     status: filters.status,
-    schwierigkeit: filters.schwierigkeit
+    schwierigkeit: filters.schwierigkeit,
+    professorId: filters.professorId
   })
 }
 
@@ -72,6 +89,8 @@ function resetFilter() {
   filters.search = ''
   filters.status = ''
   filters.schwierigkeit = ''
+  filters.professorId = ''
+
   submitFilter()
 }
 </script>

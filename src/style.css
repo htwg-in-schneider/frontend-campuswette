@@ -221,7 +221,7 @@ p {
 
 .filter-grid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
   gap: 1rem;
 }
 
@@ -229,5 +229,8 @@ p {
   .filter-grid {
     grid-template-columns: 1fr;
   }
+}
+nav .router-link-active {
+  color: var(--primary);
 }
 }

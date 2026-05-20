@@ -14,6 +14,9 @@ export async function fetchQuizWetten(params = {}) {
   if (params.schwierigkeit) {
     searchParams.append('schwierigkeit', params.schwierigkeit)
   }
+  if (params.professorId) {
+    searchParams.append('professorId', params.professorId)
+  }
 
   const queryString = searchParams.toString()
 

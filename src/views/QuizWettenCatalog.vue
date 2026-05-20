@@ -39,7 +39,9 @@
       {{ errorMessage }}
     </p>
 
-    <QuizWetteFilter @filter="loadQuizWetten" />
+    <QuizWetteFilter 
+      :professors="professors"
+      @filter="applyFilter" />
 
     <div v-if="!isLoading && quizWetten.length > 0" class="cards">
       <QuizWetteCard
@@ -62,7 +64,7 @@
 import SpecialBanner from '../components/SpecialBanner.vue'
 import QuizWetteCard from '../components/QuizWetteCard.vue'
 import QuizWetteFilter from '../components/QuizWetteFilter.vue'
-import { fetchQuizWetten } from '../services/quizWetteService'
+import { fetchQuizWetten, fetchProfessors } from '../services/quizWetteService'
 
 export default {
   components: {
@@ -74,24 +76,53 @@ export default {
   data() {
     return {
       quizWetten: [],
+      professors: [],
       isLoading: false,
       errorMessage: '',
       currentFilters: {
         search: '',
         status: '',
-        schwierigkeit: ''
+        schwierigkeit: '',
+        professorId: ''
       }
     }
   },
 
   async mounted() {
-    await this.loadQuizWetten()
+    await this.loadProfessors()
+    await this.loadQuizWettenFromRoute()
+  },
+
+  watch: {
+    '$route.query': {
+      handler() {
+        this.loadQuizWettenFromRoute()
+      },
+      deep: true
+    }
   },
 
   methods: {
-    async loadQuizWetten(filters = this.currentFilters) {
-      console.log('Catalog erhält Filter:', filters)
+    async loadProfessors() {
+      try {
+        this.professors = await fetchProfessors()
+      } catch (error) {
+        this.errorMessage = 'Professoren konnten nicht geladen werden.'
+      }
+    },
 
+    async loadQuizWettenFromRoute() {
+      const filters = {
+        search: this.$route.query.search || '',
+        status: this.$route.query.status || '',
+        schwierigkeit: this.$route.query.schwierigkeit || '',
+        professorId: this.$route.query.professorId || ''
+      }
+
+      await this.loadQuizWetten(filters)
+    },
+
+    async loadQuizWetten(filters = this.currentFilters) {
       this.isLoading = true
       this.errorMessage = ''
       this.currentFilters = filters
@@ -103,6 +134,18 @@ export default {
       } finally {
         this.isLoading = false
       }
+    },
+
+    applyFilter(filters) {
+      this.$router.push({
+        path: '/',
+        query: {
+          ...(filters.search ? { search: filters.search } : {}),
+          ...(filters.status ? { status: filters.status } : {}),
+          ...(filters.schwierigkeit ? { schwierigkeit: filters.schwierigkeit } : {}),
+          ...(filters.professorId ? { professorId: filters.professorId } : {})
+        }
+      })
     },
 
     goToDetails(quizWette) {
