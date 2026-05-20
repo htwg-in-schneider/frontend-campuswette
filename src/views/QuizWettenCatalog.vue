@@ -30,6 +30,7 @@
       <div class="container">
         <p class="eyebrow">Beispiele</p>
         <h2>Aktuelle Quiz-Wetten</h2>
+        <p>Anzahl Quiz-Wetten: {{ quizWetten.length }}</p>
 
         <div class="cards">
           <QuizWetteCard
@@ -54,11 +55,13 @@ export default {
     SpecialBanner,
     QuizWetteCard
   },
+
   data() {
     return {
       quizWetten
     }
   },
+
   methods: {
     goToDetails(quizWette) {
       this.$router.push(`/quizwetten/${quizWette.id}`)
