@@ -1,12 +1,10 @@
 :root {
-  
-  --bg: #0A1612;            
-  --surface: #132822;      
-  --text: #E8F0ED;          
-  --muted: #8FA39B;         
-  --primary: #F58427;       
-  
-  
+  --bg: #0A1612;
+  --surface: #132822;
+  --text: #E8F0ED;
+  --muted: #8FA39B;
+  --primary: #F58427;
+
   --border: rgba(255, 255, 255, 0.1);
   --radius: 18px;
   --max-width: 1120px;
@@ -30,14 +28,29 @@ a {
   text-decoration: none;
 }
 
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
 .container {
   width: min(90%, var(--max-width));
   margin: 0 auto;
 }
 
+.narrow {
+  max-width: 820px;
+}
+
 .site-header {
-  background: var(--bg);
+  background: rgba(10, 22, 18, 0.92);
   border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  backdrop-filter: blur(10px);
 }
 
 .nav {
@@ -50,20 +63,24 @@ a {
 .logo {
   font-size: 1.3rem;
   font-weight: 800;
+  color: var(--text);
 }
 
 nav {
   display: flex;
   gap: 1rem;
+  align-items: center;
 }
 
 nav a {
   color: var(--muted);
   transition: color 0.2s ease;
+  font-weight: 700;
 }
 
-nav a:hover {
-  color: var(--text);
+nav a:hover,
+nav a.router-link-active {
+  color: var(--primary);
 }
 
 .hero {
@@ -72,6 +89,9 @@ nav a:hover {
   place-items: center;
   text-align: center;
   padding: 5rem 0;
+  background:
+    radial-gradient(circle at top, rgba(245, 132, 39, 0.14), transparent 35%),
+    var(--bg);
 }
 
 .hero-content {
@@ -79,7 +99,7 @@ nav a:hover {
 }
 
 .eyebrow {
-  color: var(--primary);    
+  color: var(--primary);
   text-transform: uppercase;
   font-size: 0.85rem;
   font-weight: 800;
@@ -101,24 +121,22 @@ p {
   color: var(--muted);
 }
 
-.btn {
-  display: inline-block;
-  background: var(--primary); 
-  color: var(--bg);           
-  padding: 0.85rem 1.2rem;
-  border-radius: 999px;
-  font-weight: 800;
-  margin-top: 1.2rem;
-  transition: opacity 0.2s ease;
-}
-
-.btn:hover {
-  opacity: 0.9;               
-  cursor: pointer;
-}
-
 .section {
   padding: 4.5rem 0;
+}
+
+.section-intro {
+  max-width: 760px;
+  margin-top: 1rem;
+  color: var(--muted);
+}
+
+.page-header {
+  margin-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin-bottom: 0.8rem;
 }
 
 .cards {
@@ -128,15 +146,210 @@ p {
   margin-top: 1.5rem;
 }
 
-.card {
-  background: var(--surface); /* Nutzt das schöne dunkle Kartengrün */
+.card,
+.form-card,
+.text-card,
+.cta-box {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015)),
+    var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+}
+
+.card {
   padding: 1.5rem;
 }
 
 .card h3 {
+  margin-top: 0.8rem;
   margin-bottom: 0.6rem;
+}
+
+.form-card,
+.text-card {
+  margin-top: 1.5rem;
+  padding: 1.6rem;
+}
+
+.form-card {
+  display: grid;
+  gap: 1.1rem;
+}
+
+.cta-box {
+  margin-top: 2.5rem;
+  padding: 2rem;
+  background:
+    radial-gradient(circle at top right, rgba(245, 132, 39, 0.18), transparent 35%),
+    var(--surface);
+}
+
+.cta-box p {
+  max-width: 680px;
+}
+
+.text-card h2 {
+  margin-top: 1.8rem;
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.text-card h2:first-child {
+  margin-top: 0;
+}
+
+label {
+  display: grid;
+  gap: 0.45rem;
+  color: var(--text);
+  font-weight: 800;
+}
+
+input,
+textarea,
+select {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 0.9rem 1rem;
+  background: rgba(10, 22, 18, 0.75);
+  color: var(--text);
+  outline: none;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: rgba(245, 132, 39, 0.65);
+  box-shadow: 0 0 0 4px rgba(245, 132, 39, 0.12);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.btn {
+  display: inline-block;
+  border: 0;
+  background: var(--primary);
+  color: var(--bg);
+  padding: 0.85rem 1.2rem;
+  border-radius: 999px;
+  font-weight: 800;
+  margin-top: 1.2rem;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+}
+
+.btn:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
+
+.btn.secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn.full-width {
+  width: 100%;
+  text-align: center;
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.banner-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(245, 132, 39, 0.14);
+  color: var(--primary);
+  font-weight: 800;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+}
+
+.meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+}
+
+.meta-item {
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.meta-label {
+  display: block;
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-bottom: 0.25rem;
+}
+
+.meta-value {
+  color: var(--text);
+  font-weight: 800;
+}
+
+.error-message {
+  color: #ffb4a8;
+  font-weight: 800;
+}
+
+.success-message {
+  color: #9be7c4;
+  font-weight: 800;
+}
+
+.back-link {
+  display: inline-flex;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  font-weight: 800;
+}
+
+.answers {
+  display: grid;
+  gap: 0.75rem;
+  margin: 1.2rem 0;
+}
+
+.answer-option {
+  width: 100%;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+}
+
+.answer-option:hover,
+.answer-option.selected {
+  border-color: rgba(245, 132, 39, 0.75);
+  background: rgba(245, 132, 39, 0.12);
 }
 
 .site-footer {
@@ -150,6 +363,7 @@ p {
   .nav {
     flex-direction: column;
     padding: 1rem 0;
+    gap: 1rem;
   }
 
   nav {
@@ -157,7 +371,26 @@ p {
     justify-content: center;
   }
 
+  .hero {
+    min-height: auto;
+    padding: 4rem 0;
+  }
+
   .cards {
     grid-template-columns: 1fr;
+  }
+
+  .meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-box,
+  .form-card,
+  .text-card {
+    padding: 1.2rem;
+  }
+
+  .banner-actions {
+    justify-content: center;
   }
 }

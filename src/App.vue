@@ -1,17 +1,18 @@
 <template>
-  <Navbar />
-  <router-view />
-  <Footer />
+  <div class="app-shell">
+    <Navbar />
+
+    <RouterView />
+
+    <footer class="site-footer">
+      <div class="container">
+        CampusWette · Web-Technologien Finale Abgabe
+      </div>
+    </footer>
+  </div>
 </template>
 
-<script>
+<script setup>
+import { RouterView } from 'vue-router'
 import Navbar from './components/Navbar.vue'
-import Footer from './components/Footer.vue'
-
-export default {
-  components: {
-    Navbar,
-    Footer
-  }
-}
 </script>

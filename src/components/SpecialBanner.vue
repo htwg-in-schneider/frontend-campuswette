@@ -1,5 +1,5 @@
 <template>
-  <section v-if="bannerStore.isVisible" id="home" class="hero">
+  <section v-if="bannerStore.isVisible" class="hero">
     <div class="container hero-content">
       <p class="eyebrow">Interaktive Lernplattform</p>
       <h1>CampusWette macht Vorlesungen spannender</h1>
@@ -10,8 +10,11 @@
       </p>
 
       <div class="banner-actions">
-        <a href="#quizwetten" class="btn">Quiz-Wetten ansehen</a>
-        <button class="btn secondary" @click="bannerStore.hideBanner">
+        <RouterLink to="/quizwetten" class="btn">
+          Quiz-Wetten ansehen
+        </RouterLink>
+
+        <button class="btn secondary" type="button" @click="bannerStore.hideBanner">
           Banner ausblenden
         </button>
       </div>
