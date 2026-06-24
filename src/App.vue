@@ -6,7 +6,7 @@
 
     <footer class="site-footer">
       <div class="container">
-        CampusWette · Web-Technologien Finale Abgabe
+        CampusWette · Web-Technologien 
       </div>
     </footer>
   </div>

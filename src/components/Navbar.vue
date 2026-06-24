@@ -1,9 +1,9 @@
 <template>
   <header class="site-header">
     <div class="container nav">
-      <RouterLink to="/" class="logo">
-        <img src="/Logo.jpeg" alt="CampusWette Logo" class="logo-img" />
-      </RouterLink>
+    <RouterLink to="/" class="logo">
+      <img :src="logoUrl" alt="CampusWette Logo" class="logo-img" />
+    </RouterLink>
 
       <nav>
         <RouterLink to="/">Start</RouterLink>
@@ -63,6 +63,8 @@
 import { ref, watch } from 'vue'
 import { useAuth0 } from '@auth0/auth0-vue'
 import { userApi } from '../services/api'
+
+const logoUrl = `${import.meta.env.BASE_URL}Logo.jpeg`
 
 const {
   loginWithRedirect,
