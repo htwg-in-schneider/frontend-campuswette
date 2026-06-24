@@ -123,6 +123,10 @@ export const userApi = {
     })
   },
 
+  getEctsPoints() {
+    return request('/profile/ects-points')
+  },
+
   changePassword(passwordData) {
     return request('/profile/change-password', {
       method: 'POST',

@@ -121,12 +121,24 @@
 
             <div class="meta-grid">
               <label>
-                Zeitlimit in Sekunden
+                Zeitlimit in Sekunden (Antwortzeit)
                 <input
                   v-model.number="form.zeitlimitSekunden"
                   type="number"
                   min="1"
                   required
+                />
+              </label>
+
+              <label>
+                Wettlaufzeit in Minuten
+                <input
+                  v-model.number="form.zeitlimitMinuten"
+                  type="number"
+                  min="1"
+                  max="1440"
+                  required
+                  placeholder="z. B. 30"
                 />
               </label>
 

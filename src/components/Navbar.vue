@@ -18,6 +18,10 @@
           ECTS
         </RouterLink>
 
+        <span v-if="isAuthenticated" class="ects-badge" :title="`${ectsCount} ECTS Punkte genehmigt`">
+          📚 {{ ectsPoints }} Pkt
+        </span>
+
         <RouterLink
           v-if="profileData?.role === 'ADMIN' || profileData?.role === 'PROFESSOR'"
           to="/quizwetten-verwalten"
@@ -54,6 +58,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { useAuth0 } from '@auth0/auth0-vue'
+import { userApi } from '../services/api'
 
 const {
   loginWithRedirect,
@@ -63,14 +68,19 @@ const {
 } = useAuth0()
 
 const profileData = ref(null)
+const ectsPoints = ref(0)
+const ectsCount = ref(0)
 
 watch(
   isAuthenticated,
   async (loggedIn) => {
     if (loggedIn) {
       await loadProfile()
+      await loadEctsPoints()
     } else {
       profileData.value = null
+      ectsPoints.value = 0
+      ectsCount.value = 0
     }
   },
   { immediate: true }
@@ -102,6 +112,16 @@ async function loadProfile() {
   }
 }
 
+async function loadEctsPoints() {
+  try {
+    const data = await userApi.getEctsPoints()
+    ectsPoints.value = data.ectsPoints || 0
+    ectsCount.value = data.ectsCount || 0
+  } catch (error) {
+    console.error('ECTS-Punkte konnten nicht geladen werden.', error)
+  }
+}
+
 function handleLogout() {
   logout({
     logoutParams: {
@@ -110,3 +130,18 @@ function handleLogout() {
   })
 }
 </script>
+
+<style scoped>
+.ects-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 165, 0, 0.1);
+  color: #ff9800;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+</style>

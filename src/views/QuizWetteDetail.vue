@@ -16,6 +16,15 @@
       <article v-else-if="quizWette" class="text-card">
         <span class="status-badge">{{ quizWette.status }}</span>
 
+        <div v-if="quizWette.ablaufZeit" class="deadline-info">
+          <span v-if="timeRemaining > 0" class="info-active">
+            ⏱️ Noch {{ formatTimeRemaining() }} verbleibend
+          </span>
+          <span v-else class="info-expired">
+            ⏱️ Diese Wette ist abgelaufen und wurde geschlossen
+          </span>
+        </div>
+
         <header class="page-header">
           <p class="eyebrow">{{ quizWette.thema }}</p>
           <h1>{{ quizWette.frage }}</h1>
@@ -33,6 +42,7 @@
             type="button"
             @click="selectedAnswer = answer.key"
             :class="{ selected: selectedAnswer === answer.key }"
+            :disabled="isExpired"
           >
             <strong>{{ answer.key }}:</strong> {{ answer.text }}
           </button>
@@ -45,7 +55,7 @@
           </div>
 
           <div class="meta-item">
-            <span class="meta-label">Zeitlimit</span>
+            <span class="meta-label">Antwortzeit</span>
             <span class="meta-value">
               {{ quizWette.zeitlimitSekunden }} Sekunden
             </span>
@@ -64,7 +74,7 @@
           </div>
         </div>
 
-        <form class="form-card" @submit.prevent="submitTeilnahme">
+        <form v-if="!isExpired" class="form-card" @submit.prevent="submitTeilnahme">
           <h2>Teilnahme abschließen</h2>
 
           <p v-if="profile">
@@ -97,6 +107,10 @@
             Teilnahme speichern
           </button>
         </form>
+
+        <div v-else class="expired-notice">
+          <p>Diese Wette ist abgelaufen und kann nicht mehr bearbeitet werden.</p>
+        </div>
 
         <article v-if="result" class="text-card result-card">
           <span
@@ -143,7 +157,9 @@ export default {
       result: null,
       isLoading: false,
       errorMessage: '',
-      formError: ''
+      formError: '',
+      currentTime: new Date(),
+      updateInterval: null
     }
   },
 
@@ -159,12 +175,39 @@ export default {
         { key: 'C', text: this.quizWette.antwortC },
         { key: 'D', text: this.quizWette.antwortD }
       ]
+    },
+
+    timeRemaining() {
+      if (!this.quizWette?.ablaufZeit) {
+        return null
+      }
+
+      const ablaufTime = new Date(this.quizWette.ablaufZeit)
+      const now = new Date(this.currentTime)
+      const diff = ablaufTime - now
+
+      return diff > 0 ? diff : 0
+    },
+
+    isExpired() {
+      return this.timeRemaining === 0
     }
   },
 
   async mounted() {
     await this.loadQuizWette()
     await this.loadProfile()
+    
+    // Update current time every second for countdown
+    this.updateInterval = setInterval(() => {
+      this.currentTime = new Date()
+    }, 1000)
+  },
+
+  beforeUnmount() {
+    if (this.updateInterval) {
+      clearInterval(this.updateInterval)
+    }
   },
 
   methods: {
@@ -229,7 +272,62 @@ export default {
         this.formError = 'Die Teilnahme konnte nicht gespeichert werden.'
         console.error(error)
       }
+    },
+
+    formatTimeRemaining() {
+      if (!this.timeRemaining) {
+        return 'keine'
+      }
+
+      const totalSeconds = Math.floor(this.timeRemaining / 1000)
+      const hours = Math.floor(totalSeconds / 3600)
+      const minutes = Math.floor((totalSeconds % 3600) / 60)
+      const seconds = totalSeconds % 60
+
+      if (hours > 0) {
+        return `${hours}h ${minutes}m`
+      } else if (minutes > 0) {
+        return `${minutes}m ${seconds}s`
+      } else {
+        return `${seconds}s`
+      }
     }
   }
 }
 </script>
+
+<style scoped>
+.deadline-info {
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+}
+
+.info-active {
+  background: rgba(76, 175, 80, 0.1);
+  color: #4caf50;
+  display: block;
+}
+
+.info-expired {
+  background: rgba(244, 67, 54, 0.1);
+  color: #f44336;
+  display: block;
+}
+
+.answer-option:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.expired-notice {
+  padding: 1.5rem;
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid #f44336;
+  border-radius: 6px;
+  color: #f44336;
+  font-weight: 600;
+  text-align: center;
+}
+</style>
