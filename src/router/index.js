@@ -15,6 +15,7 @@ import AdminTeilnahmenView from '../views/AdminTeilnahmenView.vue'
 import EctsRequestView from '../views/EctsRequestView.vue'
 import AdminEctsView from '../views/AdminEctsView.vue'
 import QuizWettenManageView from '../views/QuizWettenManageView.vue'
+import ProfessorDashboardView from '../views/ProfessorDashboardView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -99,6 +100,12 @@ const router = createRouter({
       path: '/admin/ects-antraege',
       name: 'admin-ects-antraege',
       component: AdminEctsView,
+      beforeEnter: authGuard
+    },
+    {
+      path: '/professor-dashboard',
+      name: 'professor-dashboard',
+      component: ProfessorDashboardView,
       beforeEnter: authGuard
     }
   ],

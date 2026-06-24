@@ -86,6 +86,10 @@ export const professorApi = {
     return request(`/professors/${id}`)
   },
 
+  getStats(id) {
+    return request(`/professors/${id}/stats`)
+  },
+
   create(professor) {
     return request('/professors', {
       method: 'POST',
@@ -119,6 +123,13 @@ export const userApi = {
     })
   },
 
+  changePassword(passwordData) {
+    return request('/profile/change-password', {
+      method: 'POST',
+      body: JSON.stringify(passwordData)
+    })
+  },
+
   getAll() {
     return request('/admin/users')
   },
@@ -128,6 +139,14 @@ export const userApi = {
       method: 'PUT',
       body: JSON.stringify(userData)
     })
+  },
+
+  getStats() {
+    return request('/admin/users/stats')
+  },
+
+  getLeaderboard(limit = 10) {
+    return request(`/admin/users/leaderboard?limit=${limit}`)
   }
 }
 
