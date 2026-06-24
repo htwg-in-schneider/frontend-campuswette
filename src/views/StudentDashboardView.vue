@@ -404,26 +404,31 @@ h1 {
   width: 100%;
   border-collapse: collapse;
   background: white;
-  border: 1px solid #e0e0e0;
+  border: 1px solid #ddd;
   border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .leaderboard-table thead {
-  background: #f5f5f5;
+  background: linear-gradient(135deg, #ff6b35 0%, #ee5a35 100%);
 }
 
 .leaderboard-table th {
   padding: 1rem;
   text-align: left;
   font-weight: 600;
-  color: #333;
-  border-bottom: 2px solid #e0e0e0;
+  color: white;
+  border-bottom: 2px solid #ff6b35;
 }
 
 .leaderboard-table td {
   padding: 1rem;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid #ddd;
+}
+
+.leaderboard-table tbody tr {
+  transition: background-color 0.2s ease;
 }
 
 .leaderboard-table tbody tr:last-child td {
@@ -431,17 +436,35 @@ h1 {
 }
 
 .leaderboard-table tbody tr:hover {
-  background: #f9f9f9;
+  background: #f5f5f5;
 }
 
 .leaderboard-table tbody tr.is-current-user {
   background: #fffacd;
   font-weight: 600;
+  border-left: 4px solid #ff6b35;
 }
 
 .rank {
   width: 80px;
   text-align: center;
+  font-weight: 600;
+}
+
+.name {
+  min-width: 150px;
+}
+
+.email {
+  min-width: 180px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.points {
+  text-align: center;
+  font-weight: 600;
+  color: #ff6b35;
 }
 
 .medal {
