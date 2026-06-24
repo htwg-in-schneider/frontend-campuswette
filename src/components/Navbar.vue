@@ -18,6 +18,10 @@
           ECTS
         </RouterLink>
 
+        <RouterLink v-if="isAuthenticated && profileData?.role === 'USER'" to="/student-dashboard">
+          📊 Dashboard
+        </RouterLink>
+
         <span v-if="isAuthenticated" class="ects-badge" :title="`${ectsCount} ECTS Punkte genehmigt`">
           📚 {{ ectsPoints }} Pkt
         </span>

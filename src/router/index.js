@@ -16,6 +16,7 @@ import EctsRequestView from '../views/EctsRequestView.vue'
 import AdminEctsView from '../views/AdminEctsView.vue'
 import QuizWettenManageView from '../views/QuizWettenManageView.vue'
 import ProfessorDashboardView from '../views/ProfessorDashboardView.vue'
+import StudentDashboardView from '../views/StudentDashboardView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -106,6 +107,12 @@ const router = createRouter({
       path: '/professor-dashboard',
       name: 'professor-dashboard',
       component: ProfessorDashboardView,
+      beforeEnter: authGuard
+    },
+    {
+      path: '/student-dashboard',
+      name: 'student-dashboard',
+      component: StudentDashboardView,
       beforeEnter: authGuard
     }
   ],

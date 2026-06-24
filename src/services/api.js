@@ -151,6 +151,10 @@ export const userApi = {
 
   getLeaderboard(limit = 10) {
     return request(`/admin/users/leaderboard?limit=${limit}`)
+  },
+
+  getStudentLeaderboard(limit = 10) {
+    return request(`/admin/users/leaderboard-students?limit=${limit}`)
   }
 }
 
@@ -164,6 +168,10 @@ export const teilnahmeApi = {
 
   getAll() {
     return request('/teilnahmen')
+  },
+
+  getMine() {
+    return request('/teilnahmen/meine')
   },
 
   getByUser(userId) {
