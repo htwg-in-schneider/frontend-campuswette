@@ -151,3 +151,35 @@ export const teilnahmeApi = {
     return request(`/teilnahmen/quizwette/${quizWetteId}`)
   }
 }
+
+export const ectsApi = {
+  create(ectsRequest) {
+    return request('/ects-antraege', {
+      method: 'POST',
+      body: JSON.stringify(ectsRequest)
+    })
+  },
+
+  getMyRequests() {
+    return request('/ects-antraege/my')
+  },
+
+  getAllRequests(status = null) {
+    const url = status ? `/ects-antraege?status=${status}` : '/ects-antraege'
+    return request(url)
+  },
+
+  approveRequest(id, punkte) {
+    return request(`/ects-antraege/${id}/genehmigen`, {
+      method: 'PUT',
+      body: JSON.stringify({ punkte })
+    })
+  },
+
+  rejectRequest(id, grund) {
+    return request(`/ects-antraege/${id}/ablehnen`, {
+      method: 'PUT',
+      body: JSON.stringify({ grund })
+    })
+  }
+}

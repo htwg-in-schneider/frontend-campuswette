@@ -45,6 +45,18 @@
                 Teilnahmen öffnen
             </RouterLink>
         </article>
+
+        <article class="card">
+            <span class="status-badge">Punkte</span>
+            <h3>ECTS-Anträge verwalten</h3>
+            <p>
+                ECTS-Umwandlungsanträge von Studierenden genehmigen oder ablehnen
+                und Punkte verteilen.
+            </p>
+            <RouterLink to="/admin/ects-antraege" class="btn">
+                ECTS-Anträge öffnen
+            </RouterLink>
+        </article>
       </div>
     </div>
   </main>

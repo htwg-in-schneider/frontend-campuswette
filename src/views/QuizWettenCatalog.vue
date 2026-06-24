@@ -135,7 +135,7 @@ export default {
       try {
         this.quizWetten = await quizWetteApi.getAll()
       } catch (error) {
-        this.errorMessage = 'Die Quiz-Wetten konnten nicht vom Backend geladen werden.'
+        this.errorMessage = `Die Quiz-Wetten konnten nicht geladen werden: ${error.message}`
         console.error(error)
       } finally {
         this.isLoading = false

@@ -12,6 +12,8 @@ import AdminDashboardView from '../views/AdminDashboardView.vue'
 import AdminUsersView from '../views/AdminUsersView.vue'
 import AdminProfessorenView from '../views/AdminProfessorenView.vue'
 import AdminTeilnahmenView from '../views/AdminTeilnahmenView.vue'
+import EctsRequestView from '../views/EctsRequestView.vue'
+import AdminEctsView from '../views/AdminEctsView.vue'
 import QuizWettenManageView from '../views/QuizWettenManageView.vue'
 
 const router = createRouter({
@@ -85,6 +87,18 @@ const router = createRouter({
       path: '/admin/teilnahmen',
       name: 'admin-teilnahmen',
       component: AdminTeilnahmenView,
+      beforeEnter: authGuard
+    },
+    {
+      path: '/ects-antraege',
+      name: 'ects-antraege',
+      component: EctsRequestView,
+      beforeEnter: authGuard
+    },
+    {
+      path: '/admin/ects-antraege',
+      name: 'admin-ects-antraege',
+      component: AdminEctsView,
       beforeEnter: authGuard
     }
   ],

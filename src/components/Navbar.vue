@@ -14,6 +14,10 @@
           Profil
         </RouterLink>
 
+        <RouterLink v-if="isAuthenticated" to="/ects-antraege">
+          ECTS
+        </RouterLink>
+
         <RouterLink
           v-if="profileData?.role === 'ADMIN' || profileData?.role === 'PROFESSOR'"
           to="/quizwetten-verwalten"
