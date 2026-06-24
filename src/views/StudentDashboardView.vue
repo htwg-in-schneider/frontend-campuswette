@@ -31,43 +31,46 @@
 
         <div v-else-if="participations.length === 0" class="no-data">
           <p>Du hast noch an keinen Wetten teilgenommen.</p>
-          <RouterLink to="/quizwetten" class="link-button">
+          <RouterLink to="/quizwetten" class="btn btn-primary">
             Zu den Quiz-Wetten
           </RouterLink>
         </div>
 
-        <div v-else class="participations-grid">
-          <div
-            v-for="participation in participations"
-            :key="participation.id"
-            class="participation-card"
-          >
-            <div class="card-header">
-              <h3>{{ participation.quizWette.thema }}</h3>
-              <span :class="['result-badge', participation.richtig ? 'correct' : 'incorrect']">
-                {{ participation.richtig ? '✓ Richtig' : '✗ Falsch' }}
-              </span>
-            </div>
-
-            <div class="card-body">
-              <p><strong>Frage:</strong> {{ participation.quizWette.frage }}</p>
-              <p>
-                <strong>Deine Antwort:</strong>
-                <span :class="['answer-text', participation.richtig ? 'correct' : 'incorrect']">
-                  {{ participation.gewaehlteAntwort }}
+        <table v-else class="participation-table">
+          <thead>
+            <tr>
+              <th class="date">Datum</th>
+              <th class="theme">Thema</th>
+              <th class="bet">Einsatz</th>
+              <th class="status">Status</th>
+              <th class="result">Resultat</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              v-for="participation in participations"
+              :key="participation.id"
+              :class="['participation-row', participation.richtig ? 'correct' : 'incorrect']"
+            >
+              <td class="date">{{ formatDate(participation.erstelltAm) }}</td>
+              <td class="theme">
+                <strong>{{ participation.quizWette.thema }}</strong>
+                <p class="question">{{ participation.quizWette.frage }}</p>
+              </td>
+              <td class="bet">{{ participation.gesetztePunkte }} Pkt</td>
+              <td class="status">
+                <span :class="['badge', participation.richtig ? 'badge-success' : 'badge-danger']">
+                  {{ participation.richtig ? '✓ Richtig' : '✗ Falsch' }}
                 </span>
-              </p>
-              <p><strong>Einsatz:</strong> {{ participation.gesetztePunkte }} Pkt</p>
-              <p>
-                <strong>Resultat:</strong>
-                <span :class="['points-change', participation.punkteAenderung > 0 ? 'positive' : 'negative']">
-                  {{ participation.punkteAenderung > 0 ? '+' : '' }}{{ participation.punkteAenderung }} Pkt
+              </td>
+              <td class="result">
+                <span :class="['points', participation.punkteAenderung > 0 ? 'positive' : 'negative']">
+                  {{ participation.punkteAenderung > 0 ? '+' : '' }}{{ participation.punkteAenderung }}
                 </span>
-              </p>
-              <p class="date">{{ formatDate(participation.erstelltAm) }}</p>
-            </div>
-          </div>
-        </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </section>
 
       <!-- Leaderboard -->
@@ -264,101 +267,136 @@ h1 {
   background: #e55a25;
 }
 
-/* Partizipationen Grid */
-.participations-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-  gap: 1.5rem;
+.btn {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
 }
 
-.participation-card {
+.btn-primary {
+  background: #ff6b35;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #e55a25;
+}
+
+/* Partizipationen Table */
+.participation-table {
+  width: 100%;
+  border-collapse: collapse;
   background: white;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   overflow: hidden;
-  transition: box-shadow 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-.participation-card:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+.participation-table thead {
+  background: linear-gradient(135deg, #f5f5f5 0%, #efefef 100%);
+  border-bottom: 2px solid #e0e0e0;
 }
 
-.card-header {
+.participation-table th {
   padding: 1rem;
-  background: #f5f5f5;
-  border-bottom: 1px solid #e0e0e0;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.card-header h3 {
-  margin: 0;
-  font-size: 1.1rem;
-  color: #333;
-  flex: 1;
-}
-
-.result-badge {
-  padding: 0.4rem 0.8rem;
-  border-radius: 4px;
-  font-size: 0.9rem;
+  text-align: left;
   font-weight: 600;
-  white-space: nowrap;
-  margin-left: 1rem;
-}
-
-.result-badge.correct {
-  background: #d4edda;
-  color: #155724;
-}
-
-.result-badge.incorrect {
-  background: #f8d7da;
-  color: #721c24;
-}
-
-.card-body {
-  padding: 1rem;
+  color: #333;
   font-size: 0.95rem;
 }
 
-.card-body p {
-  margin: 0.5rem 0;
-  line-height: 1.5;
+.participation-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+  vertical-align: middle;
 }
 
-.answer-text {
+.participation-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.participation-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.participation-table tbody tr.correct {
+  border-left: 4px solid #28a745;
+}
+
+.participation-table tbody tr.incorrect {
+  border-left: 4px solid #dc3545;
+}
+
+.participation-row .date {
+  width: 120px;
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.participation-row .theme {
+  flex: 1;
+}
+
+.participation-row .question {
+  margin: 0.3rem 0 0 0;
+  color: #666;
+  font-size: 0.9rem;
+  font-weight: normal;
+}
+
+.participation-row .bet {
+  width: 100px;
+  text-align: center;
   font-weight: 600;
 }
 
-.answer-text.correct {
-  color: #28a745;
+.participation-row .status {
+  width: 110px;
+  text-align: center;
 }
 
-.answer-text.incorrect {
-  color: #dc3545;
-}
-
-.points-change {
+.participation-row .result {
+  width: 100px;
+  text-align: center;
   font-weight: 700;
   font-size: 1.1rem;
 }
 
-.points-change.positive {
+.badge {
+  display: inline-block;
+  padding: 0.35rem 0.75rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badge-success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.badge-danger {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.points {
+  font-weight: 700;
+}
+
+.points.positive {
   color: #28a745;
 }
 
-.points-change.negative {
+.points.negative {
   color: #dc3545;
-}
-
-.date {
-  margin-top: 0.75rem;
-  padding-top: 0.75rem;
-  border-top: 1px solid #e0e0e0;
-  color: #999;
-  font-size: 0.85rem;
 }
 
 /* Leaderboard Table */
@@ -434,6 +472,31 @@ h1 {
 
   .tab-navigation {
     flex-wrap: wrap;
+  }
+
+  .participation-table {
+    font-size: 0.85rem;
+  }
+
+  .participation-table th,
+  .participation-table td {
+    padding: 0.65rem 0.5rem;
+  }
+
+  .participation-table th {
+    font-size: 0.8rem;
+  }
+
+  .participation-row .date {
+    width: 90px;
+  }
+
+  .participation-row .question {
+    display: none;
+  }
+
+  .participation-row .theme {
+    min-width: 150px;
   }
 
   .leaderboard-table {

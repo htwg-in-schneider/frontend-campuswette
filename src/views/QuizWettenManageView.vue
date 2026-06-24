@@ -29,6 +29,17 @@
         <section class="form-card">
           <h2>{{ editingQuizWetteId ? 'Quiz-Wette bearbeiten' : 'Neue Quiz-Wette erstellen' }}</h2>
 
+          <!-- Info für Professoren -->
+          <div v-if="profile?.role === 'PROFESSOR'" class="info-box professor-info">
+            <p><strong>Professor-Quiz:</strong> Der von dir angegebene Punkteeinsatz wird von deinem Budget abgezogen und steht als Gewinn-Pot zur Verfügung.</p>
+            <p><strong>Dein aktuelles Budget:</strong> {{ profile?.points || 0 }} Punkte</p>
+          </div>
+
+          <!-- Info für Admins -->
+          <div v-else-if="profile?.role === 'ADMIN'" class="info-box admin-info">
+            <p><strong>Admin-Wette:</strong> Du kannst hier normale Wetten erstellen. Studierende können Punkte gewinnen oder verlieren.</p>
+          </div>
+
           <form class="admin-form" @submit.prevent="saveQuizWette">
             <label>
               Thema
@@ -104,10 +115,10 @@
                 </select>
               </label>
 
-              <label>
+              <label v-if="profile?.role === 'ADMIN'">
                 Professor:in
-                <select v-model.number="selectedProfessorId" required>
-                  <option value="">Bitte wählen</option>
+                <select v-model.number="selectedProfessorId">
+                  <option :value="null">Keine (Admin-Wette)</option>
                   <option
                     v-for="professor in professors"
                     :key="professor.id"
@@ -143,7 +154,7 @@
               </label>
 
               <label>
-                Punktebudget
+                {{ profile?.role === 'PROFESSOR' ? 'Gewinn-Pot (wird von deinem Budget abgezogen)' : 'Punktebudget' }}
                 <input
                   v-model.number="form.punkteBudget"
                   type="number"
@@ -289,6 +300,7 @@ export default {
         schwierigkeit: '',
         status: 'ENTWURF',
         zeitlimitSekunden: 60,
+        zeitlimitMinuten: 30,
         punkteBudget: 100
       }
     }
@@ -365,14 +377,19 @@ export default {
     },
 
     buildPayload() {
-      const professor = this.professors.find(
-        (item) => item.id === this.selectedProfessorId
-      )
-
-      return {
-        ...this.form,
-        professor
+      const payload = {
+        ...this.form
       }
+
+      // Nur für Admins: Professor hinzufügen (oder null für Admin-Betten)
+      if (this.profile?.role === 'ADMIN' && this.selectedProfessorId) {
+        const professor = this.professors.find(
+          (item) => item.id === this.selectedProfessorId
+        )
+        payload.professor = professor
+      }
+
+      return payload
     },
 
     validateForm() {
@@ -386,7 +403,10 @@ export default {
         !this.form.korrekteAntwort ||
         !this.form.schwierigkeit ||
         !this.form.status ||
-        !this.selectedProfessorId
+        (!this.form.zeitlimitSekunden || this.form.zeitlimitSekunden <= 0) ||
+        (!this.form.zeitlimitMinuten || this.form.zeitlimitMinuten <= 0) ||
+        (!this.form.punkteBudget || this.form.punkteBudget <= 0) ||
+        (this.profile?.role === 'ADMIN' && !this.selectedProfessorId)
       ) {
         return 'Bitte füllen Sie alle Pflichtfelder aus.'
       }
@@ -450,6 +470,7 @@ export default {
         schwierigkeit: quizWette.schwierigkeit,
         status: quizWette.status,
         zeitlimitSekunden: quizWette.zeitlimitSekunden,
+        zeitlimitMinuten: quizWette.zeitlimitMinuten,
         punkteBudget: quizWette.punkteBudget
       }
 
@@ -500,3 +521,32 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.info-box {
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 6px;
+  border-left: 4px solid;
+}
+
+.professor-info {
+  background: #e3f2fd;
+  border-left-color: #2196f3;
+}
+
+.professor-info p {
+  margin: 0.5rem 0;
+  color: #1976d2;
+}
+
+.admin-info {
+  background: #f3e5f5;
+  border-left-color: #9c27b0;
+}
+
+.admin-info p {
+  margin: 0.5rem 0;
+  color: #7b1fa2;
+}
+</style>
