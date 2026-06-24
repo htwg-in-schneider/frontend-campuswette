@@ -73,12 +73,11 @@ watch(
 )
 
 async function handleLogin() {
-  console.log('Login Button wurde geklickt')
-  console.log('Auth0 Domain:', import.meta.env.VITE_AUTH0_DOMAIN)
-  console.log('Auth0 Client ID:', import.meta.env.VITE_AUTH0_CLIENT_ID)
-  console.log('Auth0 Audience:', import.meta.env.VITE_AUTH0_AUDIENCE)
-
-  await loginWithRedirect()
+  try {
+    await loginWithRedirect()
+  } catch (error) {
+    console.error('Login fehlgeschlagen:', error)
+  }
 }
 
 async function loadProfile() {
@@ -102,7 +101,7 @@ async function loadProfile() {
 function handleLogout() {
   logout({
     logoutParams: {
-      returnTo: window.location.origin
+      returnTo: window.location.origin + import.meta.env.BASE_URL
     }
   })
 }
