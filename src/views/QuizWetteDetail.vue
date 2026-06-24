@@ -20,9 +20,8 @@
           <p class="eyebrow">{{ quizWette.thema }}</p>
           <h1>{{ quizWette.frage }}</h1>
           <p class="section-intro">
-            Wähle eine Antwort aus und prüfe die Details dieser Quiz-Wette.
-            Die eigentliche Teilnahmefunktion ergänzen wir im nächsten Schritt
-            im User-Bereich.
+            Wähle eine Antwort aus, setze Punkte und schließe die Teilnahme ab.
+            Das Ergebnis wird gespeichert und dein Punktestand wird aktualisiert.
           </p>
         </header>
 
@@ -65,20 +64,62 @@
           </div>
         </div>
 
-        <div class="cta-box">
-          <h2>Teilnahme vorbereiten</h2>
-          <p v-if="selectedAnswer">
-            Ausgewählte Antwort: <strong>{{ selectedAnswer }}</strong>
-          </p>
-          <p v-else>
-            Wähle zunächst eine Antwort aus. Die vollständige Teilnahme mit
-            Punkteinsatz bauen wir anschließend als komplexen User-Prozess.
+        <form class="form-card" @submit.prevent="submitTeilnahme">
+          <h2>Teilnahme abschließen</h2>
+
+          <p v-if="profile">
+            Aktueller Punktestand:
+            <strong>{{ profile.points }} Punkte</strong>
           </p>
 
-          <button class="btn full-width" type="button" disabled>
-            Teilnahme folgt im User-Bereich
+          <p v-else class="section-intro">
+            Bitte melde dich an, um deinen Punktestand zu laden und an der
+            Quiz-Wette teilzunehmen.
+          </p>
+
+          <label>
+            Punkteinsatz
+            <input
+              v-model.number="gesetztePunkte"
+              type="number"
+              min="1"
+              :max="profile?.points || 1"
+              required
+              placeholder="z. B. 50"
+            />
+          </label>
+
+          <p v-if="formError" class="error-message">
+            {{ formError }}
+          </p>
+
+          <button class="btn full-width" type="submit">
+            Teilnahme speichern
           </button>
-        </div>
+        </form>
+
+        <article v-if="result" class="text-card result-card">
+          <span
+            class="status-badge"
+            :class="{ success: result.richtig, danger: !result.richtig }"
+          >
+            {{ result.richtig ? 'Richtig' : 'Falsch' }}
+          </span>
+
+          <h2>Ergebnis gespeichert</h2>
+          <p>
+            Gewählte Antwort:
+            <strong>{{ result.gewaehlteAntwort }}</strong>
+          </p>
+          <p>
+            Punkteänderung:
+            <strong>{{ result.punkteAenderung }}</strong>
+          </p>
+          <p>
+            Neuer Punktestand:
+            <strong>{{ result.neuerPunktestand }} Punkte</strong>
+          </p>
+        </article>
       </article>
 
       <div v-else class="text-card">
@@ -90,15 +131,19 @@
 </template>
 
 <script>
-import { quizWetteApi } from '../services/api'
+import { quizWetteApi, teilnahmeApi, userApi } from '../services/api'
 
 export default {
   data() {
     return {
+      profile: null,
       quizWette: null,
       selectedAnswer: '',
+      gesetztePunkte: null,
+      result: null,
       isLoading: false,
-      errorMessage: ''
+      errorMessage: '',
+      formError: ''
     }
   },
 
@@ -119,6 +164,7 @@ export default {
 
   async mounted() {
     await this.loadQuizWette()
+    await this.loadProfile()
   },
 
   methods: {
@@ -134,6 +180,54 @@ export default {
         console.error(error)
       } finally {
         this.isLoading = false
+      }
+    },
+
+    async loadProfile() {
+      try {
+        this.profile = await userApi.getProfile()
+      } catch (error) {
+        this.profile = null
+      }
+    },
+
+    async submitTeilnahme() {
+      this.formError = ''
+      this.result = null
+
+      if (!this.profile) {
+        this.formError = 'Bitte melde dich zuerst an.'
+        return
+      }
+
+      if (!this.selectedAnswer) {
+        this.formError = 'Bitte wähle eine Antwort aus.'
+        return
+      }
+
+      if (!this.gesetztePunkte || this.gesetztePunkte <= 0) {
+        this.formError = 'Bitte gib einen gültigen Punkteinsatz ein.'
+        return
+      }
+
+      if (this.gesetztePunkte > this.profile.points) {
+        this.formError = 'Du kannst nicht mehr Punkte setzen, als du besitzt.'
+        return
+      }
+
+      try {
+        const response = await teilnahmeApi.create({
+          userId: this.profile.id,
+          quizWetteId: this.quizWette.id,
+          gewaehlteAntwort: this.selectedAnswer,
+          gesetztePunkte: this.gesetztePunkte
+        })
+
+        this.result = response
+        await this.loadProfile()
+      } catch (error) {
+        this.formError = 'Die Teilnahme konnte nicht gespeichert werden.'
+        console.error(error)
       }
     }
   }

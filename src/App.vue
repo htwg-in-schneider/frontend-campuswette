@@ -14,5 +14,12 @@
 
 <script setup>
 import { RouterView } from 'vue-router'
+import { useAuth0 } from '@auth0/auth0-vue'
+
 import Navbar from './components/Navbar.vue'
+import { setAccessTokenGetter } from './services/api'
+
+const { getAccessTokenSilently } = useAuth0()
+
+setAccessTokenGetter(getAccessTokenSilently)
 </script>

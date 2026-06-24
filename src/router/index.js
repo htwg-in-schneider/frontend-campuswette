@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { authGuard } from '@auth0/auth0-vue'
 
 import HomeView from '../views/HomeView.vue'
 import QuizWettenCatalog from '../views/QuizWettenCatalog.vue'
@@ -6,6 +7,12 @@ import QuizWetteDetail from '../views/QuizWetteDetail.vue'
 import KontaktView from '../views/KontaktView.vue'
 import ImpressumView from '../views/ImpressumView.vue'
 import DatenschutzView from '../views/DatenschutzView.vue'
+import ProfileView from '../views/ProfileView.vue'
+import AdminDashboardView from '../views/AdminDashboardView.vue'
+import AdminUsersView from '../views/AdminUsersView.vue'
+import AdminProfessorenView from '../views/AdminProfessorenView.vue'
+import AdminTeilnahmenView from '../views/AdminTeilnahmenView.vue'
+import QuizWettenManageView from '../views/QuizWettenManageView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -16,9 +23,19 @@ const router = createRouter({
       component: HomeView
     },
     {
+      path: '/login',
+      redirect: '/'
+    },
+    {
       path: '/quizwetten',
       name: 'quizwetten',
       component: QuizWettenCatalog
+    },
+    {
+      path: '/quizwetten-verwalten',
+      name: 'quizwetten-verwalten',
+      component: QuizWettenManageView,
+      beforeEnter: authGuard
     },
     {
       path: '/quizwetten/:id',
@@ -39,6 +56,36 @@ const router = createRouter({
       path: '/datenschutz',
       name: 'datenschutz',
       component: DatenschutzView
+    },
+    {
+      path: '/profil',
+      name: 'profil',
+      component: ProfileView,
+      beforeEnter: authGuard
+    },
+    {
+      path: '/admin',
+      name: 'admin',
+      component: AdminDashboardView,
+      beforeEnter: authGuard
+    },
+    {
+      path: '/admin/users',
+      name: 'admin-users',
+      component: AdminUsersView,
+      beforeEnter: authGuard
+    },
+    {
+      path: '/admin/professoren',
+      name: 'admin-professoren',
+      component: AdminProfessorenView,
+      beforeEnter: authGuard
+    },
+    {
+      path: '/admin/teilnahmen',
+      name: 'admin-teilnahmen',
+      component: AdminTeilnahmenView,
+      beforeEnter: authGuard
     }
   ],
 
