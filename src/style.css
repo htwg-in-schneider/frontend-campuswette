@@ -648,5 +648,32 @@ textarea {
     width: 100%;
     text-align: center;
   }
+  .footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
+.footer-links a + a::before {
+  content: "·";
+  margin-right: 1rem;
+  color: var(--muted);
+}
 }
 }
