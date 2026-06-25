@@ -348,21 +348,23 @@ export default {
     },
 
     filteredQuizWetten() {
-      const search = this.searchTerm.toLowerCase();
+    const search = this.searchTerm?.toLowerCase() || ""
 
-      return this.quizWetten.filter((quizWette) => {
-        const professorName = quizWette.professor?.name || "";
+    return this.quizWetten
+        .filter(Boolean)
+        .filter((quizWette) => {
+        const professorName = quizWette.professor?.name || ""
 
         return (
-          !search ||
-          quizWette.thema?.toLowerCase().includes(search) ||
-          quizWette.frage?.toLowerCase().includes(search) ||
-          quizWette.status?.toLowerCase().includes(search) ||
-          quizWette.schwierigkeit?.toLowerCase().includes(search) ||
-          professorName.toLowerCase().includes(search)
-        );
-      });
-    },
+            !search ||
+            quizWette.thema?.toLowerCase().includes(search) ||
+            quizWette.frage?.toLowerCase().includes(search) ||
+            quizWette.status?.toLowerCase().includes(search) ||
+            quizWette.schwierigkeit?.toLowerCase().includes(search) ||
+            professorName.toLowerCase().includes(search)
+        )
+        })
+    }
   },
 
   async mounted() {
@@ -539,6 +541,7 @@ export default {
         schwierigkeit: "",
         status: "ENTWURF",
         zeitlimitSekunden: 60,
+        zeitlimitMinuten: 30,
         punkteBudget: 100,
       };
     },
@@ -546,12 +549,3 @@ export default {
 };
 </script>
 
-<style scoped>
-.info-box {
-  padding: 1rem;
-  margin-bottom: 1.5rem;
-  border-radius: 6px;
-  border-left: 4px solid;
-}
-
-</style>
