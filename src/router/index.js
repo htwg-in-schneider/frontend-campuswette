@@ -17,7 +17,7 @@ import AdminEctsView from '../views/AdminEctsView.vue'
 import QuizWettenManageView from '../views/QuizWettenManageView.vue'
 import ProfessorDashboardView from '../views/ProfessorDashboardView.vue'
 import StudentDashboardView from '../views/StudentDashboardView.vue'
-import DashboardView from '../views/DashboardView.vue'
+import DashboardRedirectView from '../views/DashboardRedirectView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,7 +30,19 @@ const router = createRouter({
     {
       path: '/dashboard',
       name: 'dashboard',
-      component: DashboardView,
+      component: DashboardRedirectView,
+      beforeEnter: authGuard
+    },
+    {
+      path: '/student-dashboard',
+      name: 'student-dashboard',
+      component: StudentDashboardView,
+      beforeEnter: authGuard
+    },
+    {
+      path: '/professor-dashboard',
+      name: 'professor-dashboard',
+      component: ProfessorDashboardView,
       beforeEnter: authGuard
     },
     {
@@ -109,18 +121,7 @@ const router = createRouter({
       name: 'admin-ects-antraege',
       component: AdminEctsView,
       beforeEnter: authGuard
-    },
-    {
-      path: '/professor-dashboard',
-      name: 'professor-dashboard',
-      component: ProfessorDashboardView,
-      beforeEnter: authGuard
-    },
-    {
-      path: '/student-dashboard',
-      name: 'student-dashboard',
-      component: StudentDashboardView,
-      beforeEnter: authGuard
+    
     }
   ],
 
