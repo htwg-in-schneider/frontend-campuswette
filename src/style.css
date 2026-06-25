@@ -592,4 +592,11 @@ textarea {
   color: var(--muted);
   font-size: 0.85rem;
 }
+.dashboard-cards {
+  margin-top: 1.5rem;
+}
+
+.dashboard-cards .card {
+  min-height: 230px;
+}
 }
