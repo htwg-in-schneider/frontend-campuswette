@@ -63,6 +63,7 @@ select {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .logo {
@@ -74,7 +75,6 @@ select {
   height: 40px;
   width: auto;
   display: block;
-  mix-blend-mode: multiply;
 }
 
 nav {
@@ -144,7 +144,6 @@ strong {
   color: var(--text);
 }
 
-/* Normale Unterseiten sollen kompakter als die Hero-Startseite sein */
 .page-header {
   margin-bottom: 2rem;
 }
@@ -254,35 +253,60 @@ strong {
 
 /* ===== Buttons ===== */
 
-.btn {
+.btn,
+a.btn,
+button.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  width: fit-content;
+  min-height: 52px;
   gap: 0.35rem;
-  border: 0;
+  padding: 0.9rem 1.35rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
   background: var(--primary);
   color: var(--bg);
-  padding: 0.85rem 1.2rem;
-  border-radius: 999px;
   font-weight: 900;
+  line-height: 1;
   margin-top: 1.2rem;
-  transition: opacity 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  text-decoration: none;
   cursor: pointer;
+  box-shadow: 0 10px 24px rgba(245, 132, 39, 0.18);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease,
+    border-color 0.18s ease,
+    opacity 0.18s ease;
 }
 
-.btn:hover {
-  opacity: 0.94;
-  transform: translateY(-1px);
+.btn:hover,
+a.btn:hover,
+button.btn:hover {
+  background: var(--primary);
+  color: var(--bg);
+  opacity: 0.96;
+  transform: translateY(-2px);
+  box-shadow: 0 14px 34px rgba(245, 132, 39, 0.28);
 }
 
-.btn.secondary {
-  background: transparent;
+.btn.secondary,
+a.btn.secondary,
+button.btn.secondary {
+  background: rgba(245, 132, 39, 0.08);
   color: var(--text);
-  border: 1px solid var(--border);
+  border: 1px solid rgba(245, 132, 39, 0.35);
+  box-shadow: none;
 }
 
-.btn.secondary:hover {
-  background: rgba(255, 255, 255, 0.04);
+.btn.secondary:hover,
+a.btn.secondary:hover,
+button.btn.secondary:hover {
+  background: rgba(245, 132, 39, 0.16);
+  color: var(--text);
+  border-color: rgba(245, 132, 39, 0.75);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
 }
 
 .btn.full-width {
@@ -294,6 +318,7 @@ strong {
   opacity: 0.55;
   cursor: not-allowed;
   transform: none;
+  box-shadow: none;
 }
 
 .banner-actions,
@@ -379,6 +404,16 @@ textarea {
   letter-spacing: 0.03em;
 }
 
+.status-badge.success {
+  background: rgba(80, 220, 150, 0.14);
+  color: #9be7c4;
+}
+
+.status-badge.danger {
+  background: rgba(255, 120, 100, 0.14);
+  color: #ffb4a8;
+}
+
 .meta-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -424,6 +459,11 @@ textarea {
   font-weight: 900;
 }
 
+.muted-small {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
 /* ===== Quiz Detail ===== */
 
 .answers {
@@ -448,6 +488,27 @@ textarea {
 .answer-option.selected {
   border-color: rgba(245, 132, 39, 0.75);
   background: rgba(245, 132, 39, 0.12);
+}
+
+.result-card {
+  margin-top: 1.5rem;
+  border-color: rgba(245, 132, 39, 0.3);
+}
+
+/* ===== Dashboard ===== */
+
+.dashboard-cards {
+  margin-top: 1.5rem;
+}
+
+.dashboard-cards .card {
+  display: flex;
+  flex-direction: column;
+  min-height: 250px;
+}
+
+.dashboard-cards .card .btn {
+  margin-top: auto;
 }
 
 /* ===== Admin Tabellen ===== */
@@ -522,7 +583,35 @@ textarea {
 .site-footer {
   border-top: 1px solid var(--border);
   padding: 1.4rem 0;
-  text-align: center;
+  color: var(--muted);
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
+
+.footer-links a + a::before {
+  content: "·";
+  margin-right: 1rem;
   color: var(--muted);
 }
 
@@ -547,7 +636,11 @@ textarea {
 
   .hero {
     min-height: auto;
-    padding: 4rem 0;
+    padding: 4rem 0 3rem;
+  }
+
+  .hero-content {
+    text-align: left;
   }
 
   .section {
@@ -574,106 +667,14 @@ textarea {
   .page-header h1 {
     font-size: clamp(2rem, 11vw, 3rem);
   }
-  .result-card {
-  margin-top: 1.5rem;
-  border-color: rgba(245, 132, 39, 0.3);
-}
-
-.status-badge.success {
-  background: rgba(80, 220, 150, 0.14);
-  color: #9be7c4;
-}
-
-.status-badge.danger {
-  background: rgba(255, 120, 100, 0.14);
-  color: #ffb4a8;
-}
-.muted-small {
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-.dashboard-cards {
-  margin-top: 1.5rem;
-}
-
-.dashboard-cards .card {
-  min-height: 230px;
-}
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.footer-links {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.footer-links a {
-  color: var(--muted);
-  font-weight: 700;
-}
-
-.footer-links a:hover {
-  color: var(--primary);
-}
-
-@media (max-width: 720px) {
-  .hero {
-    min-height: auto;
-    padding: 4rem 0 3rem;
-  }
-
-  .hero-content {
-    text-align: left;
-  }
-
-  .banner-actions {
-    justify-content: flex-start;
-  }
 
   .footer-content {
     flex-direction: column;
     text-align: center;
   }
 
-  .form-card {
-    padding: 1.2rem;
-  }
-
   .btn.full-width {
     width: 100%;
     text-align: center;
   }
-  .footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-}
-
-.footer-links {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-.footer-links a {
-  color: var(--muted);
-  font-weight: 700;
-}
-
-.footer-links a:hover {
-  color: var(--primary);
-}
-.footer-links a + a::before {
-  content: "·";
-  margin-right: 1rem;
-  color: var(--muted);
-}
-}
 }
