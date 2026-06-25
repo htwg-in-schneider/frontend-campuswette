@@ -13,10 +13,6 @@
         <RouterLink v-if="isAuthenticated" to="/profil">
           Profil
         </RouterLink>
-        
-        <RouterLink v-if="isAuthenticated" to="/dashboard">
-          Dashboard
-        </RouterLink>
 
         <RouterLink v-if="isAuthenticated && profileData?.role !== 'PROFESSOR'" to="/ects-antraege">
           ECTS
@@ -25,10 +21,6 @@
         <RouterLink v-if="isAuthenticated && profileData?.role === 'USER'" to="/student-dashboard">
           📊 Dashboard
         </RouterLink>
-
-        <span v-if="isAuthenticated" class="ects-badge" :title="`${ectsCount} ECTS Punkte genehmigt`">
-          📚 {{ ectsPoints }} Pkt
-        </span>
 
         <RouterLink
           v-if="profileData?.role === 'ADMIN' || profileData?.role === 'PROFESSOR'"
