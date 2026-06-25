@@ -41,7 +41,7 @@
             <span class="status-badge">Vorschau</span>
             <h3>Öffentliche Quiz-Ansicht</h3>
             <p>Prüfe, wie Quiz-Wetten für Studierende angezeigt werden.</p>
-            <RouterLink to="/quizwetten" class="btn secondary">
+            <RouterLink to="/quizwetten" class="btn">
               Quiz-Wetten ansehen
             </RouterLink>
           </article>
