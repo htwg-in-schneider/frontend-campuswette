@@ -13,6 +13,10 @@
         <RouterLink v-if="isAuthenticated" to="/profil">
           Profil
         </RouterLink>
+        
+        <RouterLink v-if="isAuthenticated" to="/dashboard">
+          Dashboard
+        </RouterLink>
 
         <RouterLink v-if="isAuthenticated && profileData?.role !== 'PROFESSOR'" to="/ects-antraege">
           ECTS
@@ -36,6 +40,7 @@
         <RouterLink v-if="profileData?.role === 'ADMIN'" to="/admin">
           Admin
         </RouterLink>
+
 
         <button
           v-if="!isAuthenticated"
