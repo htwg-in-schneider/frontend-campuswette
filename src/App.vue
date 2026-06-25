@@ -9,7 +9,7 @@
         <span>CampusWette · Web-Technologien</span>
 
         <div class="footer-links">
-          <RouterLink to="/impressum">Impressum</RouterLink>
+          <RouterLink to="/impressum">Impressum </RouterLink>
           <RouterLink to="/datenschutz">Datenschutz</RouterLink>
         </div>
       </div>

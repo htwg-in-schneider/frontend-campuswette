@@ -12,19 +12,16 @@
       <article class="text-card">
         <h2>Angaben zum Projekt</h2>
         <p><strong>CampusWette</strong></p>
-        <p>Studentisches Projekt im Rahmen der Vorlesung Web-Technologien.</p>
-        <p>Universität Konstanz</p>
+        <p>Programmierprojekt im Rahmen der Vorlesung Web-Technologien.</p>
+        <p>HTWG-Konstanz</p>
 
         <h2>Verantwortlich für den Inhalt</h2>
         <p>
-          Projektteam CampusWette<br />
-          Universität Konstanz<br />
-          Universitätsstraße 10<br />
-          78464 Konstanz
+          Dominik Sünnboldt und Justin Kozak<br />
         </p>
 
         <h2>Kontakt</h2>
-        <p>E-Mail: campuswette@example.com</p>
+        <p>E-Mail: dominik.suennboldt@htwg-konstanz.de</p>
 
         <h2>Hinweis</h2>
         <p>
