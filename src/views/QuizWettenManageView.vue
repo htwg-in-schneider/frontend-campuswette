@@ -47,9 +47,17 @@
         </div>
 
           <!-- Info für Admins -->
-          <div v-else-if="profile?.role === 'ADMIN'" class="info-box admin-info">
-            <p><strong>Admin-Wette:</strong> Du kannst hier normale Wetten erstellen. Studierende können Punkte gewinnen oder verlieren.</p>
-          </div>
+        <div v-if="profile?.role === 'ADMIN'" class="info-banner admin-info">
+        <div class="info-banner-icon">⚙</div>
+
+        <div class="info-banner-content">
+            <p class="info-banner-title">Admin-Wette</p>
+            <p class="info-banner-text">
+            Du kannst hier normale Quiz-Wetten erstellen. Studierende können je nach Ergebnis
+            Punkte gewinnen oder verlieren.
+            </p>
+        </div>
+        </div>
 
           <form class="admin-form" @submit.prevent="saveQuizWette">
             <label>
