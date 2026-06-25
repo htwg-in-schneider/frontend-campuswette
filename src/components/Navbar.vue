@@ -1,9 +1,9 @@
 <template>
   <header class="site-header">
     <div class="container nav">
-      <RouterLink to="/" class="logo">
-        <img :src="logoUrl" alt="CampusWette Logo" class="logo-img" />
-      </RouterLink>
+    <RouterLink to="/" class="logo">
+      <img :src="logoUrl" alt="CampusWette Logo" class="logo-img" />
+    </RouterLink>
 
       <nav>
         <RouterLink to="/">Start</RouterLink>
@@ -93,7 +93,7 @@ async function loadProfile() {
     const response = await fetch(
       `${import.meta.env.VITE_API_BASE_URL}/profile`,
       {
-        headers: {
+      headers: {
           Authorization: `Bearer ${token}`,
         },
       },

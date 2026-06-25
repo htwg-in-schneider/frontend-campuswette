@@ -55,17 +55,17 @@
           </div>
 
           <!-- Info für Admins -->
-          <div v-if="profile?.role === 'ADMIN'" class="info-banner admin-info">
-            <div class="info-banner-icon">⚙</div>
+        <div v-if="profile?.role === 'ADMIN'" class="info-banner admin-info">
+        <div class="info-banner-icon">⚙</div>
 
-            <div class="info-banner-content">
-              <p class="info-banner-title">Admin-Wette</p>
-              <p class="info-banner-text">
-                Du kannst hier normale Quiz-Wetten erstellen. Studierende können
-                je nach Ergebnis Punkte gewinnen oder verlieren.
-              </p>
-            </div>
-          </div>
+        <div class="info-banner-content">
+            <p class="info-banner-title">Admin-Wette</p>
+            <p class="info-banner-text">
+            Du kannst hier reguläre CampusWetten erstellen. Studierende können je nach
+            Ergebnis Punkte gewinnen oder verlieren.
+            </p>
+        </div>
+        </div>
 
           <form class="admin-form" @submit.prevent="saveQuizWette">
             <label>
@@ -554,23 +554,4 @@ export default {
   border-left: 4px solid;
 }
 
-.professor-info {
-  background: #e3f2fd;
-  border-left-color: #2196f3;
-}
-
-.professor-info p {
-  margin: 0.5rem 0;
-  color: #1976d2;
-}
-
-.admin-info {
-  background: #f3e5f5;
-  border-left-color: #9c27b0;
-}
-
-.admin-info p {
-  margin: 0.5rem 0;
-  color: #7b1fa2;
-}
 </style>
