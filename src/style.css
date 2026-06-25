@@ -677,4 +677,60 @@ textarea {
     width: 100%;
     text-align: center;
   }
+  .info-banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-top: 1.2rem;
+  padding: 1.2rem 1.3rem;
+  border-radius: var(--radius);
+  border: 1px solid rgba(245, 132, 39, 0.22);
+  background:
+    linear-gradient(180deg, rgba(245, 132, 39, 0.08), rgba(245, 132, 39, 0.03)),
+    var(--surface);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+}
+
+.info-banner-icon {
+  flex-shrink: 0;
+  width: 2.2rem;
+  height: 2.2rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: rgba(245, 132, 39, 0.16);
+  color: var(--primary);
+  font-weight: 900;
+  font-size: 1rem;
+}
+
+.info-banner-content {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.info-banner-title {
+  color: var(--primary);
+  font-size: 0.82rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.info-banner-text {
+  color: var(--text);
+  margin: 0;
+}
+
+.info-banner-budget {
+  color: var(--muted);
+  margin: 0.1rem 0 0;
+}
+
+.info-banner-budget strong,
+.info-banner-text strong {
+  color: var(--text);
+}
 }

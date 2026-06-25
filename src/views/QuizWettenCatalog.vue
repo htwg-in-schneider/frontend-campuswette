@@ -5,8 +5,7 @@
         <p class="eyebrow">Quiz-Wetten</p>
         <h1>Aktuelle Quiz-Wetten</h1>
         <p class="section-intro">
-          Hier findest du alle verfügbaren Quiz-Wetten. Die Daten werden direkt
-          aus dem Spring-Boot-Backend geladen.
+          Hier findest du alle verfügbaren Quiz-Wetten.
         </p>
       </header>
 

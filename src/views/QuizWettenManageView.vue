@@ -30,10 +30,21 @@
           <h2>{{ editingQuizWetteId ? 'Quiz-Wette bearbeiten' : 'Neue Quiz-Wette erstellen' }}</h2>
 
           <!-- Info für Professoren -->
-          <div v-if="profile?.role === 'PROFESSOR'" class="info-box professor-info">
-            <p><strong>Professor-Quiz:</strong> Der von dir angegebene Punkteeinsatz wird von deinem Budget abgezogen und steht als Gewinn-Pot zur Verfügung.</p>
-            <p><strong>Dein aktuelles Budget:</strong> {{ profile?.points || 0 }} Punkte</p>
-          </div>
+        <div v-if="profile?.role === 'PROFESSOR'" class="info-banner">
+        <div class="info-banner-icon">ℹ</div>
+
+        <div class="info-banner-content">
+            <p class="info-banner-title">Professor-Quiz</p>
+            <p class="info-banner-text">
+            Der von dir angegebene Punkteinsatz wird von deinem Budget abgezogen
+            und steht als <strong>Gewinn-Pot</strong> zur Verfügung.
+            </p>
+            <p class="info-banner-budget">
+            Dein aktuelles Budget:
+            <strong>{{ profile.points }} Punkte</strong>
+            </p>
+        </div>
+        </div>
 
           <!-- Info für Admins -->
           <div v-else-if="profile?.role === 'ADMIN'" class="info-box admin-info">
