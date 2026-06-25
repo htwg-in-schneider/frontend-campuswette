@@ -14,7 +14,10 @@
           Profil
         </RouterLink>
 
-        <RouterLink v-if="isAuthenticated" to="/dashboard">
+        <RouterLink
+          v-if="isAuthenticated && profileData?.role !== 'ADMIN'"
+          to="/dashboard"
+        >
           Dashboard
         </RouterLink>
 
