@@ -99,28 +99,30 @@ export default {
   },
 
   computed: {
-    filteredQuizWetten() {
-      const search = this.searchTerm.toLowerCase()
+filteredQuizWetten() {
+  const search = this.searchTerm?.toLowerCase() || ''
 
-      return this.quizWetten.filter((quizWette) => {
-        const professorName = quizWette.professor?.name || ''
+  return this.quizWetten
+    .filter(Boolean)
+    .filter((quizWette) => {
+      const professorName = quizWette.professor?.name || ''
 
-        const matchesSearch =
-          !search ||
-          quizWette.frage?.toLowerCase().includes(search) ||
-          quizWette.thema?.toLowerCase().includes(search) ||
-          professorName.toLowerCase().includes(search)
+      const matchesSearch =
+        !search ||
+        quizWette.frage?.toLowerCase().includes(search) ||
+        quizWette.thema?.toLowerCase().includes(search) ||
+        professorName.toLowerCase().includes(search)
 
-        const matchesStatus =
-          !this.selectedStatus || quizWette.status === this.selectedStatus
+      const matchesStatus =
+        !this.selectedStatus || quizWette.status === this.selectedStatus
 
-        const matchesDifficulty =
-          !this.selectedDifficulty ||
-          quizWette.schwierigkeit === this.selectedDifficulty
+      const matchesDifficulty =
+        !this.selectedDifficulty ||
+        quizWette.schwierigkeit === this.selectedDifficulty
 
-        return matchesSearch && matchesStatus && matchesDifficulty
-      })
-    }
+      return matchesSearch && matchesStatus && matchesDifficulty
+    })
+}
   },
 
   async mounted() {

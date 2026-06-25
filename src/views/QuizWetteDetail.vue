@@ -16,15 +16,6 @@
       <article v-else-if="quizWette" class="text-card">
         <span class="status-badge">{{ quizWette.status }}</span>
 
-        <div v-if="quizWette.ablaufZeit" class="deadline-info">
-          <span v-if="timeRemaining > 0" class="info-active">
-            ⏱️ Noch {{ formatTimeRemaining() }} verbleibend
-          </span>
-          <span v-else class="info-expired">
-            ⏱️ Diese Wette ist abgelaufen und wurde geschlossen
-          </span>
-        </div>
-
         <header class="page-header">
           <p class="eyebrow">{{ quizWette.thema }}</p>
           <h1>{{ quizWette.frage }}</h1>
