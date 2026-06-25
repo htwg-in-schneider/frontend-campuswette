@@ -70,17 +70,6 @@
             Änderungen speichern
           </button>
         </form>
-
-        <article class="info-card">
-          <h3>🔒 Passwort ändern</h3>
-          <p>
-            Dein Passwort wird über dein Auth0-Account verwaltet. Um dein Passwort zu ändern,
-            melde dich in deinem Auth0-Profil an.
-          </p>
-          <button class="btn secondary" @click="openAuth0Settings">
-            Auth0-Einstellungen öffnen
-          </button>
-        </article>
       </template>
     </div>
   </main>
@@ -152,11 +141,6 @@ export default {
         console.error(error)
       }
     },
-
-    openAuth0Settings() {
-      // Auth0 Account Settings URL
-      window.open('https://manage.auth0.com/', '_blank')
-    }
   }
 }
 </script>

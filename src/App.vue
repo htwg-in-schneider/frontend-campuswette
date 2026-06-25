@@ -5,8 +5,13 @@
     <RouterView />
 
     <footer class="site-footer">
-      <div class="container">
-        CampusWette · Web-Technologien 
+      <div class="container footer-content">
+        <span>CampusWette · Web-Technologien</span>
+
+        <div class="footer-links">
+          <RouterLink to="/impressum">Impressum</RouterLink>
+          <RouterLink to="/datenschutz">Datenschutz</RouterLink>
+        </div>
       </div>
     </footer>
   </div>

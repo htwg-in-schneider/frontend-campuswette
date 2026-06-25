@@ -599,4 +599,54 @@ textarea {
 .dashboard-cards .card {
   min-height: 230px;
 }
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.footer-links {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.footer-links a {
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.footer-links a:hover {
+  color: var(--primary);
+}
+
+@media (max-width: 720px) {
+  .hero {
+    min-height: auto;
+    padding: 4rem 0 3rem;
+  }
+
+  .hero-content {
+    text-align: left;
+  }
+
+  .banner-actions {
+    justify-content: flex-start;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .form-card {
+    padding: 1.2rem;
+  }
+
+  .btn.full-width {
+    width: 100%;
+    text-align: center;
+  }
+}
 }
