@@ -18,6 +18,7 @@ import QuizWettenManageView from '../views/QuizWettenManageView.vue'
 import ProfessorDashboardView from '../views/ProfessorDashboardView.vue'
 import StudentDashboardView from '../views/StudentDashboardView.vue'
 import DashboardRedirectView from '../views/DashboardRedirectView.vue'
+import MeineTeilnahmenView from '../views/MeineTeilnahmenView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -53,6 +54,12 @@ const router = createRouter({
       path: '/quizwetten',
       name: 'quizwetten',
       component: QuizWettenCatalog
+    },
+    {
+      path: '/meine-teilnahmen',
+      name: 'meine-teilnahmen',
+      component: MeineTeilnahmenView,
+      beforeEnter: authGuard
     },
     {
       path: '/quizwetten-verwalten',
@@ -111,8 +118,8 @@ const router = createRouter({
       beforeEnter: authGuard
     },
     {
-      path: '/ects-antraege',
-      name: 'ects-antraege',
+      path: '/ects-antrag',
+      name: 'ects-antrag',
       component: EctsRequestView,
       beforeEnter: authGuard
     },
