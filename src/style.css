@@ -1,10 +1,10 @@
 :root {
-  --bg: #0A1612;
+  --bg: #0a1612;
   --surface: #132822;
   --surface-light: #18342c;
-  --text: #E8F0ED;
-  --muted: #8FA39B;
-  --primary: #F58427;
+  --text: #e8f0ed;
+  --muted: #8fa39b;
+  --primary: #f58427;
   --primary-soft: rgba(245, 132, 39, 0.14);
   --border: rgba(255, 255, 255, 0.1);
   --radius: 18px;
@@ -20,7 +20,11 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   background:
-    radial-gradient(circle at top left, rgba(245, 132, 39, 0.06), transparent 28rem),
+    radial-gradient(
+      circle at top left,
+      rgba(245, 132, 39, 0.06),
+      transparent 28rem
+    ),
     var(--bg);
   color: var(--text);
   line-height: 1.6;
@@ -196,7 +200,11 @@ strong {
 .cta-box,
 .admin-table-card {
   background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.012)),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.045),
+      rgba(255, 255, 255, 0.012)
+    ),
     var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -205,7 +213,9 @@ strong {
 
 .card {
   padding: 1.5rem;
-  transition: transform 0.2s ease, border-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .card:hover {
@@ -243,7 +253,11 @@ strong {
   margin-top: 2.5rem;
   padding: 2rem;
   background:
-    radial-gradient(circle at top right, rgba(245, 132, 39, 0.18), transparent 36%),
+    radial-gradient(
+      circle at top right,
+      rgba(245, 132, 39, 0.18),
+      transparent 36%
+    ),
     var(--surface);
 }
 
@@ -678,59 +692,63 @@ textarea {
     text-align: center;
   }
   .info-banner {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  margin-top: 1.2rem;
-  padding: 1.2rem 1.3rem;
-  border-radius: var(--radius);
-  border: 1px solid rgba(245, 132, 39, 0.22);
-  background:
-    linear-gradient(180deg, rgba(245, 132, 39, 0.08), rgba(245, 132, 39, 0.03)),
-    var(--surface);
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
-}
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    margin-top: 1.2rem;
+    padding: 1.2rem 1.3rem;
+    border-radius: var(--radius);
+    border: 1px solid rgba(245, 132, 39, 0.22);
+    background:
+      linear-gradient(
+        180deg,
+        rgba(245, 132, 39, 0.08),
+        rgba(245, 132, 39, 0.03)
+      ),
+      var(--surface);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.18);
+  }
 
-.info-banner-icon {
-  flex-shrink: 0;
-  width: 2.2rem;
-  height: 2.2rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  background: rgba(245, 132, 39, 0.16);
-  color: var(--primary);
-  font-weight: 900;
-  font-size: 1rem;
-}
+  .info-banner-icon {
+    flex-shrink: 0;
+    width: 2.2rem;
+    height: 2.2rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 999px;
+    background: rgba(245, 132, 39, 0.16);
+    color: var(--primary);
+    font-weight: 900;
+    font-size: 1rem;
+  }
 
-.info-banner-content {
-  display: grid;
-  gap: 0.35rem;
-}
+  .info-banner-content {
+    display: grid;
+    gap: 0.35rem;
+  }
 
-.info-banner-title {
-  color: var(--primary);
-  font-size: 0.82rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  margin: 0;
-}
+  .info-banner-title {
+    color: var(--primary);
+    font-size: 0.82rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
 
-.info-banner-text {
-  color: var(--text);
-  margin: 0;
-}
+  .info-banner-text {
+    color: var(--text);
+    margin: 0;
+  }
 
-.info-banner-budget {
-  color: var(--muted);
-  margin: 0.1rem 0 0;
-}
+  .info-banner-budget {
+    color: var(--muted);
+    margin: 0.1rem 0 0;
+  }
 
-.info-banner-budget strong,
-.info-banner-text strong {
-  color: var(--text);
-}
+  .info-banner-budget strong,
+  .info-banner-text strong {
+    color: var(--text);
+  }
 }

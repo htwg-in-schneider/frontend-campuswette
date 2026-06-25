@@ -57,29 +57,29 @@
 export default {
   data() {
     return {
-      name: '',
-      email: '',
-      message: '',
-      errorMessage: ''
-    }
+      name: "",
+      email: "",
+      message: "",
+      errorMessage: "",
+    };
   },
 
   methods: {
     sendMail() {
-      this.errorMessage = ''
+      this.errorMessage = "";
 
       if (!this.name || !this.email || !this.message) {
-        this.errorMessage = 'Bitte füllen Sie alle Pflichtfelder aus.'
-        return
+        this.errorMessage = "Bitte füllen Sie alle Pflichtfelder aus.";
+        return;
       }
 
-      const subject = encodeURIComponent(`Kontaktanfrage von ${this.name}`)
+      const subject = encodeURIComponent(`Kontaktanfrage von ${this.name}`);
       const body = encodeURIComponent(
-        `Name: ${this.name}\nE-Mail: ${this.email}\n\nNachricht:\n${this.message}`
-      )
+        `Name: ${this.name}\nE-Mail: ${this.email}\n\nNachricht:\n${this.message}`,
+      );
 
-      window.location.href = `mailto:campuswette@example.com?subject=${subject}&body=${body}`
-    }
-  }
-}
+      window.location.href = `mailto:campuswette@example.com?subject=${subject}&body=${body}`;
+    },
+  },
+};
 </script>

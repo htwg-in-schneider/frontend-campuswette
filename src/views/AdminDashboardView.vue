@@ -35,7 +35,8 @@
           <span class="status-badge">Benutzer</span>
           <h3>Benutzer:innen verwalten</h3>
           <p>
-            Admins können vorbereitete Nutzerkonten anzeigen und Profildaten bearbeiten.
+            Admins können vorbereitete Nutzerkonten anzeigen und Profildaten
+            bearbeiten.
           </p>
           <RouterLink to="/admin/users" class="btn">
             Benutzer öffnen
@@ -54,34 +55,34 @@
         </article>
 
         <article class="card">
-            <span class="status-badge">Transaktionen</span>
-            <h3>Teilnahmen nachvollziehen</h3>
-            <p>
-                Admins können sehen, welche Benutzer:innen an welchen Quiz-Wetten
-                teilgenommen haben und wie sich Punkte verändert haben.
-            </p>
-            <RouterLink to="/admin/teilnahmen" class="btn">
-                Teilnahmen öffnen
-            </RouterLink>
+          <span class="status-badge">Transaktionen</span>
+          <h3>Teilnahmen nachvollziehen</h3>
+          <p>
+            Admins können sehen, welche Benutzer:innen an welchen Quiz-Wetten
+            teilgenommen haben und wie sich Punkte verändert haben.
+          </p>
+          <RouterLink to="/admin/teilnahmen" class="btn">
+            Teilnahmen öffnen
+          </RouterLink>
         </article>
 
         <article class="card">
-            <span class="status-badge">Punkte</span>
-            <h3>ECTS-Anträge verwalten</h3>
-            <p>
-                ECTS-Umwandlungsanträge von Studierenden genehmigen oder ablehnen
-                und Punkte verteilen.
-            </p>
-            <RouterLink to="/admin/ects-antraege" class="btn">
-                ECTS-Anträge öffnen
-            </RouterLink>
+          <span class="status-badge">Punkte</span>
+          <h3>ECTS-Anträge verwalten</h3>
+          <p>
+            ECTS-Umwandlungsanträge von Studierenden genehmigen oder ablehnen
+            und Punkte verteilen.
+          </p>
+          <RouterLink to="/admin/ects-antraege" class="btn">
+            ECTS-Anträge öffnen
+          </RouterLink>
         </article>
       </div>
 
       <!-- Leaderboard -->
       <div class="form-card">
         <h2>🏆 Leaderboard</h2>
-        
+
         <div v-if="leaderboardLoading" class="loading">Wird geladen...</div>
 
         <div v-else-if="leaderboard.length === 0" class="empty-state">
@@ -106,7 +107,9 @@
                   <span v-else-if="user.rank === 3" class="medal">🥉</span>
                   <span v-else>{{ user.rank }}.</span>
                 </td>
-                <td><strong>{{ user.userName }}</strong></td>
+                <td>
+                  <strong>{{ user.userName }}</strong>
+                </td>
                 <td>{{ user.userEmail }}</td>
                 <td class="points">{{ user.points }}</td>
               </tr>
@@ -121,10 +124,10 @@
 </template>
 
 <script>
-import { userApi } from '../services/api'
+import { userApi } from "../services/api";
 
 export default {
-  name: 'AdminDashboardView',
+  name: "AdminDashboardView",
 
   data() {
     return {
@@ -133,50 +136,47 @@ export default {
         totalActiveQuizzes: 0,
         pendingEctsRequests: 0,
         averagePoints: 0,
-        totalPointsDistributed: 0
+        totalPointsDistributed: 0,
       },
       leaderboard: [],
       statsLoading: false,
       leaderboardLoading: false,
-      errorMessage: ''
-    }
+      errorMessage: "",
+    };
   },
 
   async mounted() {
-    await Promise.all([
-      this.loadStats(),
-      this.loadLeaderboard()
-    ])
+    await Promise.all([this.loadStats(), this.loadLeaderboard()]);
   },
 
   methods: {
     async loadStats() {
-      this.statsLoading = true
-      this.errorMessage = ''
+      this.statsLoading = true;
+      this.errorMessage = "";
 
       try {
-        this.stats = await userApi.getStats()
+        this.stats = await userApi.getStats();
       } catch (error) {
-        this.errorMessage = `Stats konnten nicht geladen werden: ${error.message}`
-        console.error(error)
+        this.errorMessage = `Stats konnten nicht geladen werden: ${error.message}`;
+        console.error(error);
       } finally {
-        this.statsLoading = false
+        this.statsLoading = false;
       }
     },
 
     async loadLeaderboard() {
-      this.leaderboardLoading = true
+      this.leaderboardLoading = true;
 
       try {
-        this.leaderboard = await userApi.getLeaderboard(10)
+        this.leaderboard = await userApi.getLeaderboard(10);
       } catch (error) {
-        console.error('Leaderboard konnte nicht geladen werden:', error)
+        console.error("Leaderboard konnte nicht geladen werden:", error);
       } finally {
-        this.leaderboardLoading = false
+        this.leaderboardLoading = false;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

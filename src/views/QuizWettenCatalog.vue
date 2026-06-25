@@ -78,74 +78,72 @@
 </template>
 
 <script>
-import QuizWetteCard from '../components/QuizWetteCard.vue'
-import { quizWetteApi } from '../services/api'
+import QuizWetteCard from "../components/QuizWetteCard.vue";
+import { quizWetteApi } from "../services/api";
 
 export default {
   components: {
-    QuizWetteCard
+    QuizWetteCard,
   },
 
   data() {
     return {
       quizWetten: [],
       isLoading: false,
-      errorMessage: '',
-      searchTerm: '',
-      selectedStatus: '',
-      selectedDifficulty: ''
-    }
+      errorMessage: "",
+      searchTerm: "",
+      selectedStatus: "",
+      selectedDifficulty: "",
+    };
   },
 
   computed: {
-filteredQuizWetten() {
-  const search = this.searchTerm?.toLowerCase() || ''
+    filteredQuizWetten() {
+      const search = this.searchTerm?.toLowerCase() || "";
 
-  return this.quizWetten
-    .filter(Boolean)
-    .filter((quizWette) => {
-      const professorName = quizWette.professor?.name || ''
+      return this.quizWetten.filter(Boolean).filter((quizWette) => {
+        const professorName = quizWette.professor?.name || "";
 
-      const matchesSearch =
-        !search ||
-        quizWette.frage?.toLowerCase().includes(search) ||
-        quizWette.thema?.toLowerCase().includes(search) ||
-        professorName.toLowerCase().includes(search)
+        const matchesSearch =
+          !search ||
+          quizWette.frage?.toLowerCase().includes(search) ||
+          quizWette.thema?.toLowerCase().includes(search) ||
+          professorName.toLowerCase().includes(search);
 
-      const matchesStatus =
-        !this.selectedStatus || quizWette.status === this.selectedStatus
+        const matchesStatus =
+          !this.selectedStatus || quizWette.status === this.selectedStatus;
 
-      const matchesDifficulty =
-        !this.selectedDifficulty ||
-        quizWette.schwierigkeit === this.selectedDifficulty
+        const matchesDifficulty =
+          !this.selectedDifficulty ||
+          quizWette.schwierigkeit === this.selectedDifficulty;
 
-      return matchesSearch && matchesStatus && matchesDifficulty
-    })
-}
+        return matchesSearch && matchesStatus && matchesDifficulty;
+      });
+    },
   },
 
   async mounted() {
-    await this.loadQuizWetten()
+    await this.loadQuizWetten();
   },
 
   methods: {
     async loadQuizWetten() {
-      this.isLoading = true
-      this.errorMessage = ''
+      this.isLoading = true;
+      this.errorMessage = "";
 
       try {
-        this.quizWetten = await quizWetteApi.getAll()
+        this.quizWetten = await quizWetteApi.getAll();
       } catch (error) {
-        this.errorMessage = `Die Quiz-Wetten konnten nicht geladen werden: ${error.message}`
-        console.error(error)
+        this.errorMessage = `Die Quiz-Wetten konnten nicht geladen werden: ${error.message}`;
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     },
 
     goToDetails(quizWette) {
-      this.$router.push(`/quizwetten/${quizWette.id}`)
-    }
-  }
-}
+      this.$router.push(`/quizwetten/${quizWette.id}`);
+    },
+  },
+};
 </script>

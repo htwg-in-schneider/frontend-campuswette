@@ -14,40 +14,40 @@
 </template>
 
 <script>
-import { userApi } from '../services/api'
+import { userApi } from "../services/api";
 
 export default {
   data() {
     return {
-      errorMessage: ''
-    }
+      errorMessage: "",
+    };
   },
 
   async mounted() {
     try {
-      const profile = await userApi.getProfile()
-      console.log('DashboardRedirect Profil:', profile)
+      const profile = await userApi.getProfile();
+      console.log("DashboardRedirect Profil:", profile);
 
-      if (profile.role === 'ADMIN') {
-        this.$router.replace('/admin')
-        return
+      if (profile.role === "ADMIN") {
+        this.$router.replace("/admin");
+        return;
       }
 
-      if (profile.role === 'PROFESSOR') {
-        this.$router.replace('/professor-dashboard')
-        return
+      if (profile.role === "PROFESSOR") {
+        this.$router.replace("/professor-dashboard");
+        return;
       }
 
-      if (profile.role === 'USER') {
-        this.$router.replace('/student-dashboard')
-        return
+      if (profile.role === "USER") {
+        this.$router.replace("/student-dashboard");
+        return;
       }
 
-      this.errorMessage = `Unbekannte Rolle: ${profile.role}`
+      this.errorMessage = `Unbekannte Rolle: ${profile.role}`;
     } catch (error) {
-      this.errorMessage = 'Profil konnte nicht geladen werden.'
-      console.error('DashboardRedirect Fehler:', error)
+      this.errorMessage = "Profil konnte nicht geladen werden.";
+      console.error("DashboardRedirect Fehler:", error);
     }
-  }
-}
+  },
+};
 </script>

@@ -13,9 +13,7 @@
         </p>
       </header>
 
-      <p v-if="isLoading" class="section-intro">
-        Historie wird geladen...
-      </p>
+      <p v-if="isLoading" class="section-intro">Historie wird geladen...</p>
 
       <p v-else-if="errorMessage" class="error-message">
         {{ errorMessage }}
@@ -23,9 +21,7 @@
 
       <article v-else-if="teilnahmen.length === 0" class="text-card">
         <h2>Noch keine Teilnahmen</h2>
-        <p>
-          Du hast bisher noch an keiner Quiz-Wette teilgenommen.
-        </p>
+        <p>Du hast bisher noch an keiner Quiz-Wette teilgenommen.</p>
 
         <RouterLink to="/quizwetten" class="btn">
           Quiz-Wetten öffnen
@@ -60,14 +56,18 @@
                 <td>
                   <span
                     class="status-badge"
-                    :class="{ success: teilnahme.richtig, danger: !teilnahme.richtig }"
+                    :class="{
+                      success: teilnahme.richtig,
+                      danger: !teilnahme.richtig,
+                    }"
                   >
-                    {{ teilnahme.richtig ? 'Richtig' : 'Falsch' }}
+                    {{ teilnahme.richtig ? "Richtig" : "Falsch" }}
                   </span>
                 </td>
                 <td>
                   <strong>
-                    {{ teilnahme.punkteAenderung > 0 ? '+' : '' }}{{ teilnahme.punkteAenderung }}
+                    {{ teilnahme.punkteAenderung > 0 ? "+" : ""
+                    }}{{ teilnahme.punkteAenderung }}
                   </strong>
                 </td>
                 <td>{{ teilnahme.neuerPunktestand }}</td>
@@ -81,7 +81,7 @@
 </template>
 
 <script>
-import { teilnahmeApi, userApi } from '../services/api'
+import { teilnahmeApi, userApi } from "../services/api";
 
 export default {
   data() {
@@ -89,40 +89,40 @@ export default {
       profile: null,
       teilnahmen: [],
       isLoading: false,
-      errorMessage: ''
-    }
+      errorMessage: "",
+    };
   },
 
   async mounted() {
-    await this.loadData()
+    await this.loadData();
   },
 
   methods: {
     async loadData() {
-      this.isLoading = true
-      this.errorMessage = ''
+      this.isLoading = true;
+      this.errorMessage = "";
 
       try {
-        this.profile = await userApi.getProfile()
-        this.teilnahmen = await teilnahmeApi.getByUser(this.profile.id)
+        this.profile = await userApi.getProfile();
+        this.teilnahmen = await teilnahmeApi.getByUser(this.profile.id);
       } catch (error) {
-        this.errorMessage = 'Deine Quiz-Historie konnte nicht geladen werden.'
-        console.error(error)
+        this.errorMessage = "Deine Quiz-Historie konnte nicht geladen werden.";
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     },
 
     formatDate(value) {
       if (!value) {
-        return '–'
+        return "–";
       }
 
-      return new Date(value).toLocaleString('de-DE', {
-        dateStyle: 'short',
-        timeStyle: 'short'
-      })
-    }
-  }
-}
+      return new Date(value).toLocaleString("de-DE", {
+        dateStyle: "short",
+        timeStyle: "short",
+      });
+    },
+  },
+};
 </script>

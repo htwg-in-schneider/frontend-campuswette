@@ -5,7 +5,8 @@
         <p class="eyebrow">Rechtliches</p>
         <h1>Datenschutzerklärung</h1>
         <p class="section-intro">
-          Hinweise zur Datenverarbeitung innerhalb des studentischen Lehrprojekts.
+          Hinweise zur Datenverarbeitung innerhalb des studentischen
+          Lehrprojekts.
         </p>
       </header>
 
@@ -20,9 +21,9 @@
         <h2>Verarbeitete Daten</h2>
         <p>
           Im Rahmen der Anwendung können beispielhafte Benutzerprofile,
-          Quiz-Wetten, Antworten, Punkteinsätze und Transaktionsdaten verarbeitet
-          werden. Die Daten dienen ausschließlich der Demonstration der
-          implementierten Funktionen.
+          Quiz-Wetten, Antworten, Punkteinsätze und Transaktionsdaten
+          verarbeitet werden. Die Daten dienen ausschließlich der Demonstration
+          der implementierten Funktionen.
         </p>
 
         <h2>Kontaktformular</h2>
@@ -34,15 +35,13 @@
 
         <h2>Authentifizierung</h2>
         <p>
-          Für geschützte Bereiche der Anwendung ist ein Anmeldeprozess vorgesehen.
-          Benutzerrollen werden genutzt, um normale Benutzer:innen und
-          Administrator:innen voneinander zu unterscheiden.
+          Für geschützte Bereiche der Anwendung ist ein Anmeldeprozess
+          vorgesehen. Benutzerrollen werden genutzt, um normale Benutzer:innen
+          und Administrator:innen voneinander zu unterscheiden.
         </p>
 
         <h2>Lehrprojekt</h2>
-        <p>
-          Die Anwendung ist nicht für den produktiven Einsatz vorgesehen.
-        </p>
+        <p>Die Anwendung ist nicht für den produktiven Einsatz vorgesehen.</p>
       </article>
     </div>
   </main>

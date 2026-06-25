@@ -8,9 +8,9 @@
 defineProps({
   href: {
     type: String,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 </script>
 
 <style scoped>

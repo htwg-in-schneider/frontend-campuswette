@@ -10,9 +10,7 @@
         </p>
       </header>
 
-      <p v-if="isLoading" class="section-intro">
-        Profil wird geladen...
-      </p>
+      <p v-if="isLoading" class="section-intro">Profil wird geladen...</p>
 
       <p v-else-if="errorMessage" class="error-message">
         {{ errorMessage }}
@@ -76,73 +74,73 @@
 </template>
 
 <script>
-import { userApi } from '../services/api'
+import { userApi } from "../services/api";
 
 export default {
   data() {
     return {
       profile: null,
       isLoading: false,
-      errorMessage: '',
-      formError: '',
-      successMessage: '',
+      errorMessage: "",
+      formError: "",
+      successMessage: "",
       form: {
-        name: '',
-        address: ''
-      }
-    }
+        name: "",
+        address: "",
+      },
+    };
   },
 
   async mounted() {
-    await this.loadProfile()
+    await this.loadProfile();
   },
 
   methods: {
     async loadProfile() {
-      this.isLoading = true
-      this.errorMessage = ''
-      this.formError = ''
-      this.successMessage = ''
+      this.isLoading = true;
+      this.errorMessage = "";
+      this.formError = "";
+      this.successMessage = "";
 
       try {
-        this.profile = await userApi.getProfile()
+        this.profile = await userApi.getProfile();
 
         this.form = {
           name: this.profile.name,
-          address: this.profile.address
-        }
+          address: this.profile.address,
+        };
       } catch (error) {
         this.errorMessage =
-          'Das Profil konnte nicht geladen werden. Prüfe, ob der Auth0-User in der Datenbank eine oauth_id hat.'
-        console.error(error)
+          "Das Profil konnte nicht geladen werden. Prüfe, ob der Auth0-User in der Datenbank eine oauth_id hat.";
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     },
 
     async saveProfile() {
-      this.formError = ''
-      this.successMessage = ''
+      this.formError = "";
+      this.successMessage = "";
 
       if (!this.form.name || !this.form.address) {
-        this.formError = 'Bitte füllen Sie alle Pflichtfelder aus.'
-        return
+        this.formError = "Bitte füllen Sie alle Pflichtfelder aus.";
+        return;
       }
 
       try {
         this.profile = await userApi.updateProfile({
           name: this.form.name,
-          address: this.form.address
-        })
+          address: this.form.address,
+        });
 
-        this.successMessage = 'Die Profildaten wurden gespeichert.'
+        this.successMessage = "Die Profildaten wurden gespeichert.";
       } catch (error) {
-        this.formError = 'Die Profildaten konnten nicht gespeichert werden.'
-        console.error(error)
+        this.formError = "Die Profildaten konnten nicht gespeichert werden.";
+        console.error(error);
       }
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>

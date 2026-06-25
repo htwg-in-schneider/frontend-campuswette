@@ -26,9 +26,7 @@
         </label>
       </section>
 
-      <p v-if="isLoading" class="section-intro">
-        Teilnahmen werden geladen...
-      </p>
+      <p v-if="isLoading" class="section-intro">Teilnahmen werden geladen...</p>
 
       <p v-else-if="errorMessage" class="error-message">
         {{ errorMessage }}
@@ -59,11 +57,13 @@
               <tr v-for="teilnahme in filteredTeilnahmen" :key="teilnahme.id">
                 <td>{{ formatDate(teilnahme.erstelltAm) }}</td>
                 <td>
-                  <strong>{{ teilnahme.userName }}</strong><br />
+                  <strong>{{ teilnahme.userName }}</strong
+                  ><br />
                   <span class="muted-small">{{ teilnahme.userEmail }}</span>
                 </td>
                 <td>
-                  <strong>{{ teilnahme.quizThema }}</strong><br />
+                  <strong>{{ teilnahme.quizThema }}</strong
+                  ><br />
                   <span class="muted-small">{{ teilnahme.quizFrage }}</span>
                 </td>
                 <td>{{ teilnahme.gewaehlteAntwort }}</td>
@@ -71,14 +71,18 @@
                 <td>
                   <span
                     class="status-badge"
-                    :class="{ success: teilnahme.richtig, danger: !teilnahme.richtig }"
+                    :class="{
+                      success: teilnahme.richtig,
+                      danger: !teilnahme.richtig,
+                    }"
                   >
-                    {{ teilnahme.richtig ? 'Richtig' : 'Falsch' }}
+                    {{ teilnahme.richtig ? "Richtig" : "Falsch" }}
                   </span>
                 </td>
                 <td>
                   <strong>
-                    {{ teilnahme.punkteAenderung > 0 ? '+' : '' }}{{ teilnahme.punkteAenderung }}
+                    {{ teilnahme.punkteAenderung > 0 ? "+" : ""
+                    }}{{ teilnahme.punkteAenderung }}
                   </strong>
                 </td>
                 <td>{{ teilnahme.neuerPunktestand }}</td>
@@ -100,21 +104,21 @@
 </template>
 
 <script>
-import { teilnahmeApi } from '../services/api'
+import { teilnahmeApi } from "../services/api";
 
 export default {
   data() {
     return {
       teilnahmen: [],
-      searchTerm: '',
+      searchTerm: "",
       isLoading: false,
-      errorMessage: ''
-    }
+      errorMessage: "",
+    };
   },
 
   computed: {
     filteredTeilnahmen() {
-      const search = this.searchTerm.toLowerCase()
+      const search = this.searchTerm.toLowerCase();
 
       return this.teilnahmen.filter((teilnahme) => {
         return (
@@ -124,40 +128,40 @@ export default {
           teilnahme.quizThema?.toLowerCase().includes(search) ||
           teilnahme.quizFrage?.toLowerCase().includes(search) ||
           teilnahme.gewaehlteAntwort?.toLowerCase().includes(search)
-        )
-      })
-    }
+        );
+      });
+    },
   },
 
   async mounted() {
-    await this.loadTeilnahmen()
+    await this.loadTeilnahmen();
   },
 
   methods: {
     async loadTeilnahmen() {
-      this.isLoading = true
-      this.errorMessage = ''
+      this.isLoading = true;
+      this.errorMessage = "";
 
       try {
-        this.teilnahmen = await teilnahmeApi.getAll()
+        this.teilnahmen = await teilnahmeApi.getAll();
       } catch (error) {
-        this.errorMessage = 'Die Teilnahmen konnten nicht geladen werden.'
-        console.error(error)
+        this.errorMessage = "Die Teilnahmen konnten nicht geladen werden.";
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     },
 
     formatDate(value) {
       if (!value) {
-        return '–'
+        return "–";
       }
 
-      return new Date(value).toLocaleString('de-DE', {
-        dateStyle: 'short',
-        timeStyle: 'short'
-      })
-    }
-  }
-}
+      return new Date(value).toLocaleString("de-DE", {
+        dateStyle: "short",
+        timeStyle: "short",
+      });
+    },
+  },
+};
 </script>

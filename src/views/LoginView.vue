@@ -5,8 +5,8 @@
         <p class="eyebrow">Login</p>
         <h1>Anmelden</h1>
         <p class="section-intro">
-          Melde dich mit einem vorbereiteten Benutzerkonto an. Die Anmeldung wird
-          über das Spring-Boot-Backend gegen die MariaDB-Datenbank geprüft.
+          Melde dich mit einem vorbereiteten Benutzerkonto an. Die Anmeldung
+          wird über das Spring-Boot-Backend gegen die MariaDB-Datenbank geprüft.
         </p>
       </header>
 
@@ -35,9 +35,7 @@
           {{ errorMessage }}
         </p>
 
-        <button class="btn full-width" type="submit">
-          Einloggen
-        </button>
+        <button class="btn full-width" type="submit">Einloggen</button>
       </form>
 
       <article class="text-card">
@@ -50,35 +48,35 @@
 </template>
 
 <script>
-import { useAuthStore } from '../stores/auth'
+import { useAuthStore } from "../stores/auth";
 
 export default {
   data() {
     return {
-      email: '',
-      password: '',
-      errorMessage: ''
-    }
+      email: "",
+      password: "",
+      errorMessage: "",
+    };
   },
 
   methods: {
     async handleLogin() {
-      this.errorMessage = ''
+      this.errorMessage = "";
 
       try {
-        const authStore = useAuthStore()
-        await authStore.login(this.email, this.password)
+        const authStore = useAuthStore();
+        await authStore.login(this.email, this.password);
 
         if (authStore.isAdmin) {
-          this.$router.push('/admin')
+          this.$router.push("/admin");
         } else {
-          this.$router.push('/profil')
+          this.$router.push("/profil");
         }
       } catch (error) {
-        this.errorMessage = 'E-Mail oder Passwort ist falsch.'
-        console.error(error)
+        this.errorMessage = "E-Mail oder Passwort ist falsch.";
+        console.error(error);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

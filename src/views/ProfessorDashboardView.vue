@@ -5,13 +5,12 @@
         <p class="eyebrow">Professor Dashboard</p>
         <h1>Quiz-Verwaltung</h1>
         <p class="section-intro">
-          Erstelle Quiz-Wetten, verwalte dein Punktebudget und kontrolliere deine Inhalte.
+          Erstelle Quiz-Wetten, verwalte dein Punktebudget und kontrolliere
+          deine Inhalte.
         </p>
       </header>
 
-      <p v-if="isLoading" class="section-intro">
-        Dashboard wird geladen...
-      </p>
+      <p v-if="isLoading" class="section-intro">Dashboard wird geladen...</p>
 
       <p v-else-if="errorMessage" class="error-message">
         {{ errorMessage }}
@@ -31,7 +30,9 @@
           <article class="card">
             <span class="status-badge">Quiz</span>
             <h3>Quiz-Wetten verwalten</h3>
-            <p>Erstelle neue Quiz-Wetten oder bearbeite bestehende Quiz-Inhalte.</p>
+            <p>
+              Erstelle neue Quiz-Wetten oder bearbeite bestehende Quiz-Inhalte.
+            </p>
             <RouterLink to="/quizwetten-verwalten" class="btn">
               Quiz verwalten
             </RouterLink>
@@ -50,9 +51,7 @@
             <span class="status-badge">Profil</span>
             <h3>Profil ansehen</h3>
             <p>Prüfe deine Profildaten und deine Rolle.</p>
-            <RouterLink to="/profil" class="btn">
-              Profil öffnen
-            </RouterLink>
+            <RouterLink to="/profil" class="btn"> Profil öffnen </RouterLink>
           </article>
         </section>
       </template>
@@ -61,39 +60,40 @@
 </template>
 
 <script>
-import { userApi } from '../services/api'
+import { userApi } from "../services/api";
 
 export default {
   data() {
     return {
       profile: null,
       isLoading: false,
-      errorMessage: ''
-    }
+      errorMessage: "",
+    };
   },
 
   async mounted() {
-    await this.loadProfile()
+    await this.loadProfile();
   },
 
   methods: {
     async loadProfile() {
-      this.isLoading = true
-      this.errorMessage = ''
+      this.isLoading = true;
+      this.errorMessage = "";
 
       try {
-        this.profile = await userApi.getProfile()
+        this.profile = await userApi.getProfile();
 
-        if (this.profile.role !== 'PROFESSOR') {
-          this.$router.replace('/dashboard')
+        if (this.profile.role !== "PROFESSOR") {
+          this.$router.replace("/dashboard");
         }
       } catch (error) {
-        this.errorMessage = 'Das Professor-Dashboard konnte nicht geladen werden.'
-        console.error(error)
+        this.errorMessage =
+          "Das Professor-Dashboard konnte nicht geladen werden.";
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

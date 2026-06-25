@@ -16,9 +16,7 @@
         <p>HTWG-Konstanz</p>
 
         <h2>Verantwortlich für den Inhalt</h2>
-        <p>
-          Dominik Sünnboldt und Justin Kozak<br />
-        </p>
+        <p>Dominik Sünnboldt und Justin Kozak<br /></p>
 
         <h2>Kontakt</h2>
         <p>E-Mail: dominik.suennboldt@htwg-konstanz.de</p>

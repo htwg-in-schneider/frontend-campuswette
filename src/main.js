@@ -1,15 +1,15 @@
-import './style.css'
+import "./style.css";
 
-import { createApp } from 'vue'
-import { createPinia } from 'pinia'
-import { createAuth0 } from '@auth0/auth0-vue'
+import { createApp } from "vue";
+import { createPinia } from "pinia";
+import { createAuth0 } from "@auth0/auth0-vue";
 
-import App from './App.vue'
-import router from './router'
+import App from "./App.vue";
+import router from "./router";
 
-const app = createApp(App)
+const app = createApp(App);
 
-app.use(createPinia())
+app.use(createPinia());
 
 app.use(
   createAuth0({
@@ -17,11 +17,11 @@ app.use(
     clientId: import.meta.env.VITE_AUTH0_CLIENT_ID,
     authorizationParams: {
       audience: import.meta.env.VITE_AUTH0_AUDIENCE,
-      redirect_uri: window.location.origin + import.meta.env.BASE_URL
-    }
-  })
-)
+      redirect_uri: window.location.origin + import.meta.env.BASE_URL,
+    },
+  }),
+);
 
-app.use(router)
+app.use(router);
 
-app.mount('#app')
+app.mount("#app");

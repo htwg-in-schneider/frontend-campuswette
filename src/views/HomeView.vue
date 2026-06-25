@@ -38,8 +38,8 @@
             <span class="status-badge">Studierende</span>
             <h3>Quiz-Wetten & Historie</h3>
             <p>
-              Studierende können an aktiven Quiz-Wetten teilnehmen, Punkte sammeln
-              und ihre persönliche Teilnahme-Historie einsehen.
+              Studierende können an aktiven Quiz-Wetten teilnehmen, Punkte
+              sammeln und ihre persönliche Teilnahme-Historie einsehen.
             </p>
           </article>
 
@@ -47,8 +47,8 @@
             <span class="status-badge">ECTS</span>
             <h3>ECTS-Anträge</h3>
             <p>
-              Über ein Antragssystem können Studierende absolvierte Module melden.
-              Nach Genehmigung werden Punkte gutgeschrieben.
+              Über ein Antragssystem können Studierende absolvierte Module
+              melden. Nach Genehmigung werden Punkte gutgeschrieben.
             </p>
           </article>
 
@@ -137,33 +137,35 @@ export default {
   data() {
     return {
       contact: {
-        name: '',
-        email: '',
-        message: ''
+        name: "",
+        email: "",
+        message: "",
       },
-      formError: ''
-    }
+      formError: "",
+    };
   },
 
   methods: {
     sendMail() {
-      this.formError = ''
+      this.formError = "";
 
       if (!this.contact.name || !this.contact.email || !this.contact.message) {
-        this.formError = 'Bitte füllen Sie alle Felder aus.'
-        return
+        this.formError = "Bitte füllen Sie alle Felder aus.";
+        return;
       }
 
-      const recipient = 'campuswette@example.com'
-      const subject = encodeURIComponent(`Kontaktanfrage von ${this.contact.name}`)
+      const recipient = "campuswette@example.com";
+      const subject = encodeURIComponent(
+        `Kontaktanfrage von ${this.contact.name}`,
+      );
       const body = encodeURIComponent(
         `Name: ${this.contact.name}\n` +
-        `E-Mail: ${this.contact.email}\n\n` +
-        `Nachricht:\n${this.contact.message}`
-      )
+          `E-Mail: ${this.contact.email}\n\n` +
+          `Nachricht:\n${this.contact.message}`,
+      );
 
-      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`
-    }
-  }
-}
+      window.location.href = `mailto:${recipient}?subject=${subject}&body=${body}`;
+    },
+  },
+};
 </script>

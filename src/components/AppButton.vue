@@ -1,9 +1,5 @@
 <template>
-  <button
-    class="app-button"
-    :class="variant"
-    @click="$emit('click')"
-  >
+  <button class="app-button" :class="variant" @click="$emit('click')">
     <slot />
   </button>
 </template>
@@ -12,11 +8,11 @@
 defineProps({
   variant: {
     type: String,
-    default: 'accent'
-  }
-})
+    default: "accent",
+  },
+});
 
-defineEmits(['click'])
+defineEmits(["click"]);
 </script>
 
 <style scoped>

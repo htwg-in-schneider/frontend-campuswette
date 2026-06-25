@@ -5,9 +5,7 @@
         ← Zurück zur Übersicht
       </RouterLink>
 
-      <p v-if="isLoading" class="section-intro">
-        Quiz-Wette wird geladen...
-      </p>
+      <p v-if="isLoading" class="section-intro">Quiz-Wette wird geladen...</p>
 
       <p v-else-if="errorMessage" class="error-message">
         {{ errorMessage }}
@@ -21,7 +19,8 @@
           <h1>{{ quizWette.frage }}</h1>
           <p class="section-intro">
             Wähle eine Antwort aus, setze Punkte und schließe die Teilnahme ab.
-            Das Ergebnis wird gespeichert und dein Punktestand wird aktualisiert.
+            Das Ergebnis wird gespeichert und dein Punktestand wird
+            aktualisiert.
           </p>
         </header>
 
@@ -60,12 +59,16 @@
           <div class="meta-item">
             <span class="meta-label">Professor:in</span>
             <span class="meta-value">
-              {{ quizWette.professor?.name || 'Nicht zugeordnet' }}
+              {{ quizWette.professor?.name || "Nicht zugeordnet" }}
             </span>
           </div>
         </div>
 
-        <form v-if="!isExpired" class="form-card" @submit.prevent="submitTeilnahme">
+        <form
+          v-if="!isExpired"
+          class="form-card"
+          @submit.prevent="submitTeilnahme"
+        >
           <h2>Teilnahme abschließen</h2>
 
           <p v-if="profile">
@@ -100,7 +103,9 @@
         </form>
 
         <div v-else class="expired-notice">
-          <p>Diese Wette ist abgelaufen und kann nicht mehr bearbeitet werden.</p>
+          <p>
+            Diese Wette ist abgelaufen und kann nicht mehr bearbeitet werden.
+          </p>
         </div>
 
         <article v-if="result" class="text-card result-card">
@@ -108,7 +113,7 @@
             class="status-badge"
             :class="{ success: result.richtig, danger: !result.richtig }"
           >
-            {{ result.richtig ? 'Richtig' : 'Falsch' }}
+            {{ result.richtig ? "Richtig" : "Falsch" }}
           </span>
 
           <h2>Ergebnis gespeichert</h2>
@@ -136,117 +141,117 @@
 </template>
 
 <script>
-import { quizWetteApi, teilnahmeApi, userApi } from '../services/api'
+import { quizWetteApi, teilnahmeApi, userApi } from "../services/api";
 
 export default {
   data() {
     return {
       profile: null,
       quizWette: null,
-      selectedAnswer: '',
+      selectedAnswer: "",
       gesetztePunkte: null,
       result: null,
       isLoading: false,
-      errorMessage: '',
-      formError: '',
+      errorMessage: "",
+      formError: "",
       currentTime: new Date(),
-      updateInterval: null
-    }
+      updateInterval: null,
+    };
   },
 
   computed: {
     answers() {
       if (!this.quizWette) {
-        return []
+        return [];
       }
 
       return [
-        { key: 'A', text: this.quizWette.antwortA },
-        { key: 'B', text: this.quizWette.antwortB },
-        { key: 'C', text: this.quizWette.antwortC },
-        { key: 'D', text: this.quizWette.antwortD }
-      ]
+        { key: "A", text: this.quizWette.antwortA },
+        { key: "B", text: this.quizWette.antwortB },
+        { key: "C", text: this.quizWette.antwortC },
+        { key: "D", text: this.quizWette.antwortD },
+      ];
     },
 
     timeRemaining() {
       if (!this.quizWette?.ablaufZeit) {
-        return null
+        return null;
       }
 
-      const ablaufTime = new Date(this.quizWette.ablaufZeit)
-      const now = new Date(this.currentTime)
-      const diff = ablaufTime - now
+      const ablaufTime = new Date(this.quizWette.ablaufZeit);
+      const now = new Date(this.currentTime);
+      const diff = ablaufTime - now;
 
-      return diff > 0 ? diff : 0
+      return diff > 0 ? diff : 0;
     },
 
     isExpired() {
-      return this.timeRemaining === 0
-    }
+      return this.timeRemaining === 0;
+    },
   },
 
   async mounted() {
-    await this.loadQuizWette()
-    await this.loadProfile()
-    
+    await this.loadQuizWette();
+    await this.loadProfile();
+
     // Update current time every second for countdown
     this.updateInterval = setInterval(() => {
-      this.currentTime = new Date()
-    }, 1000)
+      this.currentTime = new Date();
+    }, 1000);
   },
 
   beforeUnmount() {
     if (this.updateInterval) {
-      clearInterval(this.updateInterval)
+      clearInterval(this.updateInterval);
     }
   },
 
   methods: {
     async loadQuizWette() {
-      this.isLoading = true
-      this.errorMessage = ''
+      this.isLoading = true;
+      this.errorMessage = "";
 
       try {
-        const id = this.$route.params.id
-        this.quizWette = await quizWetteApi.getById(id)
+        const id = this.$route.params.id;
+        this.quizWette = await quizWetteApi.getById(id);
       } catch (error) {
-        this.errorMessage = 'Die Quiz-Wette konnte nicht geladen werden.'
-        console.error(error)
+        this.errorMessage = "Die Quiz-Wette konnte nicht geladen werden.";
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     },
 
     async loadProfile() {
       try {
-        this.profile = await userApi.getProfile()
+        this.profile = await userApi.getProfile();
       } catch (error) {
-        this.profile = null
+        this.profile = null;
       }
     },
 
     async submitTeilnahme() {
-      this.formError = ''
-      this.result = null
+      this.formError = "";
+      this.result = null;
 
       if (!this.profile) {
-        this.formError = 'Bitte melde dich zuerst an.'
-        return
+        this.formError = "Bitte melde dich zuerst an.";
+        return;
       }
 
       if (!this.selectedAnswer) {
-        this.formError = 'Bitte wähle eine Antwort aus.'
-        return
+        this.formError = "Bitte wähle eine Antwort aus.";
+        return;
       }
 
       if (!this.gesetztePunkte || this.gesetztePunkte <= 0) {
-        this.formError = 'Bitte gib einen gültigen Punkteinsatz ein.'
-        return
+        this.formError = "Bitte gib einen gültigen Punkteinsatz ein.";
+        return;
       }
 
       if (this.gesetztePunkte > this.profile.points) {
-        this.formError = 'Du kannst nicht mehr Punkte setzen, als du besitzt.'
-        return
+        this.formError = "Du kannst nicht mehr Punkte setzen, als du besitzt.";
+        return;
       }
 
       try {
@@ -254,37 +259,37 @@ export default {
           userId: this.profile.id,
           quizWetteId: this.quizWette.id,
           gewaehlteAntwort: this.selectedAnswer,
-          gesetztePunkte: this.gesetztePunkte
-        })
+          gesetztePunkte: this.gesetztePunkte,
+        });
 
-        this.result = response
-        await this.loadProfile()
+        this.result = response;
+        await this.loadProfile();
       } catch (error) {
-        this.formError = 'Die Teilnahme konnte nicht gespeichert werden.'
-        console.error(error)
+        this.formError = "Die Teilnahme konnte nicht gespeichert werden.";
+        console.error(error);
       }
     },
 
     formatTimeRemaining() {
       if (!this.timeRemaining) {
-        return 'keine'
+        return "keine";
       }
 
-      const totalSeconds = Math.floor(this.timeRemaining / 1000)
-      const hours = Math.floor(totalSeconds / 3600)
-      const minutes = Math.floor((totalSeconds % 3600) / 60)
-      const seconds = totalSeconds % 60
+      const totalSeconds = Math.floor(this.timeRemaining / 1000);
+      const hours = Math.floor(totalSeconds / 3600);
+      const minutes = Math.floor((totalSeconds % 3600) / 60);
+      const seconds = totalSeconds % 60;
 
       if (hours > 0) {
-        return `${hours}h ${minutes}m`
+        return `${hours}h ${minutes}m`;
       } else if (minutes > 0) {
-        return `${minutes}m ${seconds}s`
+        return `${minutes}m ${seconds}s`;
       } else {
-        return `${seconds}s`
+        return `${seconds}s`;
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

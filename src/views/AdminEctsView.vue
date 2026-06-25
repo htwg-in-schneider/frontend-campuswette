@@ -59,7 +59,9 @@
                 <td>{{ antrag.ectsAnzahl * 10 }}</td>
                 <td>{{ formatDate(antrag.erstelltAm) }}</td>
                 <td>
-                  <span :class="`status-badge status-${antrag.status.toLowerCase()}`">
+                  <span
+                    :class="`status-badge status-${antrag.status.toLowerCase()}`"
+                  >
                     {{ getStatusLabel(antrag.status) }}
                   </span>
                 </td>
@@ -90,12 +92,22 @@
       </div>
 
       <!-- Approval Dialog -->
-      <div v-if="showApprovalDialog" class="modal-overlay" @click="closeDialogs">
+      <div
+        v-if="showApprovalDialog"
+        class="modal-overlay"
+        @click="closeDialogs"
+      >
         <div class="modal-content" @click.stop>
           <h2>ECTS-Antrag genehmigen</h2>
-          <p>Student: <strong>{{ selectedAntrag?.userName }}</strong></p>
-          <p>Modul: <strong>{{ selectedAntrag?.modulName }}</strong></p>
-          <p>ECTS: <strong>{{ selectedAntrag?.ectsAnzahl }}</strong></p>
+          <p>
+            Student: <strong>{{ selectedAntrag?.userName }}</strong>
+          </p>
+          <p>
+            Modul: <strong>{{ selectedAntrag?.modulName }}</strong>
+          </p>
+          <p>
+            ECTS: <strong>{{ selectedAntrag?.ectsAnzahl }}</strong>
+          </p>
 
           <label>
             Punkte verteilen
@@ -113,7 +125,9 @@
           </div>
 
           <div class="modal-actions">
-            <button @click="approveAntrag" class="btn-approve">Genehmigen</button>
+            <button @click="approveAntrag" class="btn-approve">
+              Genehmigen
+            </button>
             <button @click="closeDialogs" class="btn-cancel">Abbrechen</button>
           </div>
         </div>
@@ -123,8 +137,12 @@
       <div v-if="showRejectDialog" class="modal-overlay" @click="closeDialogs">
         <div class="modal-content" @click.stop>
           <h2>ECTS-Antrag ablehnen</h2>
-          <p>Student: <strong>{{ selectedAntrag?.userName }}</strong></p>
-          <p>Modul: <strong>{{ selectedAntrag?.modulName }}</strong></p>
+          <p>
+            Student: <strong>{{ selectedAntrag?.userName }}</strong>
+          </p>
+          <p>
+            Modul: <strong>{{ selectedAntrag?.modulName }}</strong>
+          </p>
 
           <label>
             Grund der Ablehnung (optional)
@@ -148,129 +166,132 @@
 </template>
 
 <script>
-import { ectsApi } from '../services/api'
+import { ectsApi } from "../services/api";
 
 export default {
-  name: 'AdminEctsView',
+  name: "AdminEctsView",
 
   data() {
     return {
       antraege: [],
-      filterStatus: '',
+      filterStatus: "",
       isLoading: false,
-      errorMessage: '',
-      successMessage: '',
+      errorMessage: "",
+      successMessage: "",
       showApprovalDialog: false,
       showRejectDialog: false,
       selectedAntrag: null,
       approvalPunkte: 0,
-      rejectGrund: ''
-    }
+      rejectGrund: "",
+    };
   },
 
   computed: {
     filteredAntraege() {
       if (!this.filterStatus) {
-        return this.antraege
+        return this.antraege;
       }
-      return this.antraege.filter(a => a.status === this.filterStatus)
-    }
+      return this.antraege.filter((a) => a.status === this.filterStatus);
+    },
   },
 
   async mounted() {
-    await this.loadAntraege()
+    await this.loadAntraege();
   },
 
   watch: {
     filterStatus() {
-      this.loadAntraege()
-    }
+      this.loadAntraege();
+    },
   },
 
   methods: {
     async loadAntraege() {
-      this.isLoading = true
-      this.errorMessage = ''
+      this.isLoading = true;
+      this.errorMessage = "";
 
       try {
-        this.antraege = await ectsApi.getAllRequests(this.filterStatus || null)
+        this.antraege = await ectsApi.getAllRequests(this.filterStatus || null);
       } catch (error) {
-        this.errorMessage = `Anträge konnten nicht geladen werden: ${error.message}`
-        console.error(error)
+        this.errorMessage = `Anträge konnten nicht geladen werden: ${error.message}`;
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     },
 
     openApprovalDialog(antrag) {
-      this.selectedAntrag = antrag
-      this.approvalPunkte = antrag.ectsAnzahl * 10
-      this.showApprovalDialog = true
+      this.selectedAntrag = antrag;
+      this.approvalPunkte = antrag.ectsAnzahl * 10;
+      this.showApprovalDialog = true;
     },
 
     openRejectDialog(antrag) {
-      this.selectedAntrag = antrag
-      this.rejectGrund = ''
-      this.showRejectDialog = true
+      this.selectedAntrag = antrag;
+      this.rejectGrund = "";
+      this.showRejectDialog = true;
     },
 
     closeDialogs() {
-      this.showApprovalDialog = false
-      this.showRejectDialog = false
-      this.selectedAntrag = null
-      this.approvalPunkte = 0
-      this.rejectGrund = ''
+      this.showApprovalDialog = false;
+      this.showRejectDialog = false;
+      this.selectedAntrag = null;
+      this.approvalPunkte = 0;
+      this.rejectGrund = "";
     },
 
     async approveAntrag() {
-      this.errorMessage = ''
-      this.successMessage = ''
+      this.errorMessage = "";
+      this.successMessage = "";
 
       try {
-        await ectsApi.approveRequest(this.selectedAntrag.id, this.approvalPunkte)
-        this.successMessage = `✓ ${this.selectedAntrag.userName} wurde ${this.approvalPunkte} Punkte gutgeschrieben!`
-        this.closeDialogs()
-        await this.loadAntraege()
+        await ectsApi.approveRequest(
+          this.selectedAntrag.id,
+          this.approvalPunkte,
+        );
+        this.successMessage = `✓ ${this.selectedAntrag.userName} wurde ${this.approvalPunkte} Punkte gutgeschrieben!`;
+        this.closeDialogs();
+        await this.loadAntraege();
       } catch (error) {
-        this.errorMessage = `Fehler beim Genehmigen: ${error.message}`
-        console.error(error)
+        this.errorMessage = `Fehler beim Genehmigen: ${error.message}`;
+        console.error(error);
       }
     },
 
     async rejectAntrag() {
-      this.errorMessage = ''
-      this.successMessage = ''
+      this.errorMessage = "";
+      this.successMessage = "";
 
       try {
-        await ectsApi.rejectRequest(this.selectedAntrag.id, this.rejectGrund)
-        this.successMessage = `✓ Antrag von ${this.selectedAntrag.userName} abgelehnt!`
-        this.closeDialogs()
-        await this.loadAntraege()
+        await ectsApi.rejectRequest(this.selectedAntrag.id, this.rejectGrund);
+        this.successMessage = `✓ Antrag von ${this.selectedAntrag.userName} abgelehnt!`;
+        this.closeDialogs();
+        await this.loadAntraege();
       } catch (error) {
-        this.errorMessage = `Fehler beim Ablehnen: ${error.message}`
-        console.error(error)
+        this.errorMessage = `Fehler beim Ablehnen: ${error.message}`;
+        console.error(error);
       }
     },
 
     getStatusLabel(status) {
       const labels = {
-        PENDING: 'Ausstehend',
-        GENEHMIGT: '✓ Genehmigt',
-        ABGELEHNT: '✗ Abgelehnt'
-      }
-      return labels[status] || status
+        PENDING: "Ausstehend",
+        GENEHMIGT: "✓ Genehmigt",
+        ABGELEHNT: "✗ Abgelehnt",
+      };
+      return labels[status] || status;
     },
 
     formatDate(dateString) {
-      const date = new Date(dateString)
-      return date.toLocaleDateString('de-DE', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      })
-    }
-  }
-}
+      const date = new Date(dateString);
+      return date.toLocaleDateString("de-DE", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
+    },
+  },
+};
 </script>
 
 <style scoped>

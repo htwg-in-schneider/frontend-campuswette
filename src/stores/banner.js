@@ -1,12 +1,12 @@
-import { defineStore } from 'pinia'
+import { defineStore } from "pinia";
 
-export const useBannerStore = defineStore('banner', {
+export const useBannerStore = defineStore("banner", {
   state: () => ({
-    isVisible: true
+    isVisible: true,
   }),
   actions: {
     hideBanner() {
-      this.isVisible = false
-    }
-  }
-})
+      this.isVisible = false;
+    },
+  },
+});

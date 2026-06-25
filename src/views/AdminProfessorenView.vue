@@ -15,7 +15,13 @@
       </header>
 
       <section class="form-card">
-        <h2>{{ editingProfessorId ? 'Professor:in bearbeiten' : 'Professor:in erfassen' }}</h2>
+        <h2>
+          {{
+            editingProfessorId
+              ? "Professor:in bearbeiten"
+              : "Professor:in erfassen"
+          }}
+        </h2>
 
         <form class="admin-form" @submit.prevent="saveProfessor">
           <label>
@@ -58,7 +64,11 @@
 
           <div class="admin-actions">
             <button class="btn" type="submit">
-              {{ editingProfessorId ? 'Änderungen speichern' : 'Professor:in anlegen' }}
+              {{
+                editingProfessorId
+                  ? "Änderungen speichern"
+                  : "Professor:in anlegen"
+              }}
             </button>
 
             <button
@@ -150,29 +160,29 @@
 </template>
 
 <script>
-import { professorApi } from '../services/api'
+import { professorApi } from "../services/api";
 
 export default {
   data() {
     return {
       professors: [],
-      searchTerm: '',
+      searchTerm: "",
       isLoading: false,
-      loadError: '',
-      errorMessage: '',
-      successMessage: '',
+      loadError: "",
+      errorMessage: "",
+      successMessage: "",
       editingProfessorId: null,
       form: {
-        name: '',
-        email: '',
-        department: ''
-      }
-    }
+        name: "",
+        email: "",
+        department: "",
+      },
+    };
   },
 
   computed: {
     filteredProfessors() {
-      const search = this.searchTerm.toLowerCase()
+      const search = this.searchTerm.toLowerCase();
 
       return this.professors.filter((professor) => {
         return (
@@ -180,98 +190,98 @@ export default {
           professor.name?.toLowerCase().includes(search) ||
           professor.email?.toLowerCase().includes(search) ||
           professor.department?.toLowerCase().includes(search)
-        )
-      })
-    }
+        );
+      });
+    },
   },
 
   async mounted() {
-    await this.loadProfessors()
+    await this.loadProfessors();
   },
 
   methods: {
     async loadProfessors() {
-      this.isLoading = true
-      this.loadError = ''
+      this.isLoading = true;
+      this.loadError = "";
 
       try {
-        this.professors = await professorApi.getAll()
+        this.professors = await professorApi.getAll();
       } catch (error) {
-        this.loadError = 'Die Professor:innen konnten nicht geladen werden.'
-        console.error(error)
+        this.loadError = "Die Professor:innen konnten nicht geladen werden.";
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     },
 
     async saveProfessor() {
-      this.errorMessage = ''
-      this.successMessage = ''
+      this.errorMessage = "";
+      this.successMessage = "";
 
       if (!this.form.name || !this.form.email || !this.form.department) {
-        this.errorMessage = 'Bitte füllen Sie alle Pflichtfelder aus.'
-        return
+        this.errorMessage = "Bitte füllen Sie alle Pflichtfelder aus.";
+        return;
       }
 
       try {
         if (this.editingProfessorId) {
-          await professorApi.update(this.editingProfessorId, this.form)
-          this.successMessage = 'Professor:in wurde aktualisiert.'
+          await professorApi.update(this.editingProfessorId, this.form);
+          this.successMessage = "Professor:in wurde aktualisiert.";
         } else {
-          await professorApi.create(this.form)
-          this.successMessage = 'Professor:in wurde angelegt.'
+          await professorApi.create(this.form);
+          this.successMessage = "Professor:in wurde angelegt.";
         }
 
-        this.resetForm()
-        await this.loadProfessors()
+        this.resetForm();
+        await this.loadProfessors();
       } catch (error) {
-        this.errorMessage = 'Die Professor:in konnte nicht gespeichert werden.'
-        console.error(error)
+        this.errorMessage = "Die Professor:in konnte nicht gespeichert werden.";
+        console.error(error);
       }
     },
 
     startEditing(professor) {
-      this.editingProfessorId = professor.id
+      this.editingProfessorId = professor.id;
       this.form = {
         name: professor.name,
         email: professor.email,
-        department: professor.department
-      }
+        department: professor.department,
+      };
 
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
 
     async deleteProfessor(professor) {
       const confirmed = window.confirm(
-        `Soll ${professor.name} wirklich gelöscht werden?`
-      )
+        `Soll ${professor.name} wirklich gelöscht werden?`,
+      );
 
       if (!confirmed) {
-        return
+        return;
       }
 
-      this.errorMessage = ''
-      this.successMessage = ''
+      this.errorMessage = "";
+      this.successMessage = "";
 
       try {
-        await professorApi.delete(professor.id)
-        this.successMessage = 'Professor:in wurde gelöscht.'
-        await this.loadProfessors()
+        await professorApi.delete(professor.id);
+        this.successMessage = "Professor:in wurde gelöscht.";
+        await this.loadProfessors();
       } catch (error) {
         this.errorMessage =
-          'Die Professor:in konnte nicht gelöscht werden. Möglicherweise sind noch Quiz-Wetten zugeordnet.'
-        console.error(error)
+          "Die Professor:in konnte nicht gelöscht werden. Möglicherweise sind noch Quiz-Wetten zugeordnet.";
+        console.error(error);
       }
     },
 
     resetForm() {
-      this.editingProfessorId = null
+      this.editingProfessorId = null;
       this.form = {
-        name: '',
-        email: '',
-        department: ''
-      }
-    }
-  }
-}
+        name: "",
+        email: "",
+        department: "",
+      };
+    },
+  },
+};
 </script>

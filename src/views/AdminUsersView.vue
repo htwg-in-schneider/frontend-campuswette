@@ -16,9 +16,17 @@
       </header>
 
       <section class="form-card">
-        <h2>{{ editingUserId ? 'Benutzer:in bearbeiten' : 'Benutzer:in auswählen' }}</h2>
+        <h2>
+          {{
+            editingUserId ? "Benutzer:in bearbeiten" : "Benutzer:in auswählen"
+          }}
+        </h2>
 
-        <form v-if="editingUserId" class="admin-form" @submit.prevent="saveUser">
+        <form
+          v-if="editingUserId"
+          class="admin-form"
+          @submit.prevent="saveUser"
+        >
           <label>
             Name
             <input
@@ -48,9 +56,7 @@
           </p>
 
           <div class="admin-actions">
-            <button class="btn" type="submit">
-              Änderungen speichern
-            </button>
+            <button class="btn" type="submit">Änderungen speichern</button>
 
             <button class="btn secondary" type="button" @click="resetForm">
               Abbrechen
@@ -129,9 +135,7 @@
 
         <article v-else class="text-card">
           <h2>Keine Benutzer:innen gefunden</h2>
-          <p>
-            Passe die Suche an, um andere Benutzerkonten anzuzeigen.
-          </p>
+          <p>Passe die Suche an, um andere Benutzerkonten anzuzeigen.</p>
         </article>
       </section>
     </div>
@@ -139,28 +143,28 @@
 </template>
 
 <script>
-import { userApi } from '../services/api'
+import { userApi } from "../services/api";
 
 export default {
   data() {
     return {
       users: [],
-      searchTerm: '',
+      searchTerm: "",
       isLoading: false,
-      loadError: '',
-      errorMessage: '',
-      successMessage: '',
+      loadError: "",
+      errorMessage: "",
+      successMessage: "",
       editingUserId: null,
       form: {
-        name: '',
-        address: ''
-      }
-    }
+        name: "",
+        address: "",
+      },
+    };
   },
 
   computed: {
     filteredUsers() {
-      const search = this.searchTerm.toLowerCase()
+      const search = this.searchTerm.toLowerCase();
 
       return this.users.filter((user) => {
         return (
@@ -169,70 +173,70 @@ export default {
           user.email?.toLowerCase().includes(search) ||
           user.role?.toLowerCase().includes(search) ||
           user.address?.toLowerCase().includes(search)
-        )
-      })
-    }
+        );
+      });
+    },
   },
 
   async mounted() {
-    await this.loadUsers()
+    await this.loadUsers();
   },
 
   methods: {
     async loadUsers() {
-      this.isLoading = true
-      this.loadError = ''
+      this.isLoading = true;
+      this.loadError = "";
 
       try {
-        this.users = await userApi.getAll()
+        this.users = await userApi.getAll();
       } catch (error) {
-        this.loadError = 'Die Benutzer:innen konnten nicht geladen werden.'
-        console.error(error)
+        this.loadError = "Die Benutzer:innen konnten nicht geladen werden.";
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     },
 
     startEditing(user) {
-      this.editingUserId = user.id
+      this.editingUserId = user.id;
       this.form = {
         name: user.name,
-        address: user.address
-      }
-      this.errorMessage = ''
-      this.successMessage = ''
+        address: user.address,
+      };
+      this.errorMessage = "";
+      this.successMessage = "";
 
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
 
     async saveUser() {
-      this.errorMessage = ''
-      this.successMessage = ''
+      this.errorMessage = "";
+      this.successMessage = "";
 
       if (!this.form.name || !this.form.address) {
-        this.errorMessage = 'Bitte füllen Sie alle Pflichtfelder aus.'
-        return
+        this.errorMessage = "Bitte füllen Sie alle Pflichtfelder aus.";
+        return;
       }
 
       try {
-        await userApi.updateByAdmin(this.editingUserId, this.form)
-        this.successMessage = 'Benutzer:in wurde aktualisiert.'
+        await userApi.updateByAdmin(this.editingUserId, this.form);
+        this.successMessage = "Benutzer:in wurde aktualisiert.";
 
-        await this.loadUsers()
-        this.resetForm()
+        await this.loadUsers();
+        this.resetForm();
       } catch (error) {
-        this.errorMessage = 'Die Benutzer:in konnte nicht gespeichert werden.'
-        console.error(error)
+        this.errorMessage = "Die Benutzer:in konnte nicht gespeichert werden.";
+        console.error(error);
       }
     },
 
     resetForm() {
-      this.editingUserId = null
+      this.editingUserId = null;
       this.form = {
-        name: '',
-        address: ''
-      }
-    }
-  }
-}
+        name: "",
+        address: "",
+      };
+    },
+  },
+};
 </script>

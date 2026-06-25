@@ -4,9 +4,9 @@
       <p class="eyebrow">Interaktive Lernplattform</p>
       <h1>CampusWette macht Vorlesungen spannender</h1>
       <p>
-        CampusWette verbindet Studium, Spielwährung und Quiz-Wetten.
-        Studierende können aktiv teilnehmen, während Lehrende interaktive
-        Quiz-Formate für ihre Vorlesungen erstellen.
+        CampusWette verbindet Studium, Spielwährung und Quiz-Wetten. Studierende
+        können aktiv teilnehmen, während Lehrende interaktive Quiz-Formate für
+        ihre Vorlesungen erstellen.
       </p>
 
       <div class="banner-actions">
@@ -14,7 +14,11 @@
           Quiz-Wetten ansehen
         </RouterLink>
 
-        <button class="btn secondary" type="button" @click="bannerStore.hideBanner">
+        <button
+          class="btn secondary"
+          type="button"
+          @click="bannerStore.hideBanner"
+        >
           Banner ausblenden
         </button>
       </div>
@@ -23,7 +27,7 @@
 </template>
 
 <script setup>
-import { useBannerStore } from '../stores/banner'
+import { useBannerStore } from "../stores/banner";
 
-const bannerStore = useBannerStore()
+const bannerStore = useBannerStore();
 </script>

@@ -41,11 +41,13 @@
           </p>
 
           <button type="submit" class="btn-primary" :disabled="isLoading">
-            {{ isLoading ? 'Wird abgesendet...' : 'Antrag stellen' }}
+            {{ isLoading ? "Wird abgesendet..." : "Antrag stellen" }}
           </button>
 
           <p v-if="errorMessage" class="error-message">{{ errorMessage }}</p>
-          <p v-if="successMessage" class="success-message">{{ successMessage }}</p>
+          <p v-if="successMessage" class="success-message">
+            {{ successMessage }}
+          </p>
         </form>
       </div>
 
@@ -71,12 +73,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="antrag in antraege" :key="antrag.id" :class="statusClass(antrag.status)">
+              <tr
+                v-for="antrag in antraege"
+                :key="antrag.id"
+                :class="statusClass(antrag.status)"
+              >
                 <td>{{ antrag.modulName }}</td>
                 <td>{{ antrag.ectsAnzahl }}</td>
                 <td>{{ antrag.ectsAnzahl * 10 }}</td>
                 <td>
-                  <span :class="`status-badge status-${antrag.status.toLowerCase()}`">
+                  <span
+                    :class="`status-badge status-${antrag.status.toLowerCase()}`"
+                  >
                     {{ getStatusLabel(antrag.status) }}
                   </span>
                 </td>
@@ -87,8 +95,10 @@
         </div>
 
         <p v-if="antraege.length > 0" class="section-intro">
-          Insgesamt eingereicht: <strong>{{ getTotalEcts() }} ECTS</strong>
-          ({{ getTotalEcts() * 10 }} Punkte)
+          Insgesamt eingereicht: <strong>{{ getTotalEcts() }} ECTS</strong> ({{
+            getTotalEcts() * 10
+          }}
+          Punkte)
         </p>
       </div>
     </div>
@@ -96,89 +106,89 @@
 </template>
 
 <script>
-import { ectsApi } from '../services/api'
+import { ectsApi } from "../services/api";
 
 export default {
-  name: 'EctsRequestView',
+  name: "EctsRequestView",
 
   data() {
     return {
       form: {
-        modulName: '',
-        ectsAnzahl: 3
+        modulName: "",
+        ectsAnzahl: 3,
       },
       antraege: [],
       isLoading: false,
-      errorMessage: '',
-      successMessage: ''
-    }
+      errorMessage: "",
+      successMessage: "",
+    };
   },
 
   async mounted() {
-    await this.loadAntraege()
+    await this.loadAntraege();
   },
 
   methods: {
     async submitAntrag() {
-      this.errorMessage = ''
-      this.successMessage = ''
-      this.isLoading = true
+      this.errorMessage = "";
+      this.successMessage = "";
+      this.isLoading = true;
 
       try {
-        await ectsApi.create(this.form)
-        this.successMessage = '✓ Antrag erfolgreich eingereicht!'
-        this.form.modulName = ''
-        this.form.ectsAnzahl = 3
-        await this.loadAntraege()
+        await ectsApi.create(this.form);
+        this.successMessage = "✓ Antrag erfolgreich eingereicht!";
+        this.form.modulName = "";
+        this.form.ectsAnzahl = 3;
+        await this.loadAntraege();
       } catch (error) {
-        this.errorMessage = `Fehler: ${error.message}`
-        console.error(error)
+        this.errorMessage = `Fehler: ${error.message}`;
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     },
 
     async loadAntraege() {
-      this.isLoading = true
+      this.isLoading = true;
       try {
-        this.antraege = await ectsApi.getMyRequests()
+        this.antraege = await ectsApi.getMyRequests();
       } catch (error) {
-        this.errorMessage = `Anträge konnten nicht geladen werden: ${error.message}`
-        console.error(error)
+        this.errorMessage = `Anträge konnten nicht geladen werden: ${error.message}`;
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     },
 
     getStatusLabel(status) {
       const labels = {
-        PENDING: 'Ausstehend',
-        GENEHMIGT: '✓ Genehmigt',
-        ABGELEHNT: '✗ Abgelehnt'
-      }
-      return labels[status] || status
+        PENDING: "Ausstehend",
+        GENEHMIGT: "✓ Genehmigt",
+        ABGELEHNT: "✗ Abgelehnt",
+      };
+      return labels[status] || status;
     },
 
     statusClass(status) {
-      return `status-${status.toLowerCase()}`
+      return `status-${status.toLowerCase()}`;
     },
 
     formatDate(dateString) {
-      const date = new Date(dateString)
-      return date.toLocaleDateString('de-DE', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit'
-      })
+      const date = new Date(dateString);
+      return date.toLocaleDateString("de-DE", {
+        year: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+      });
     },
 
     getTotalEcts() {
       return this.antraege
-        .filter(a => a.status === 'GENEHMIGT')
-        .reduce((sum, a) => sum + a.ectsAnzahl, 0)
-    }
-  }
-}
+        .filter((a) => a.status === "GENEHMIGT")
+        .reduce((sum, a) => sum + a.ectsAnzahl, 0);
+    },
+  },
+};
 </script>
 
 <style scoped>

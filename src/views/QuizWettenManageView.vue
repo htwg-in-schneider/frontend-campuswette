@@ -9,8 +9,8 @@
         <p class="eyebrow">Quiz-Wetten Verwaltung</p>
         <h1>Quiz-Wetten verwalten</h1>
         <p class="section-intro">
-          Professor:innen und Administrator:innen können hier Quiz-Wetten erstellen,
-          bearbeiten und löschen.
+          Professor:innen und Administrator:innen können hier Quiz-Wetten
+          erstellen, bearbeiten und löschen.
         </p>
       </header>
 
@@ -21,43 +21,51 @@
       <article v-else-if="!canManageQuizWetten" class="text-card">
         <h2>Kein Zugriff</h2>
         <p>
-          Diese Seite ist nur für Professor:innen und Administrator:innen zugänglich.
+          Diese Seite ist nur für Professor:innen und Administrator:innen
+          zugänglich.
         </p>
       </article>
 
       <template v-else>
         <section class="form-card">
-          <h2>{{ editingQuizWetteId ? 'Quiz-Wette bearbeiten' : 'Neue Quiz-Wette erstellen' }}</h2>
+          <h2>
+            {{
+              editingQuizWetteId
+                ? "Quiz-Wette bearbeiten"
+                : "Neue Quiz-Wette erstellen"
+            }}
+          </h2>
 
           <!-- Info für Professoren -->
-        <div v-if="profile?.role === 'PROFESSOR'" class="info-banner">
-        <div class="info-banner-icon">ℹ</div>
+          <div v-if="profile?.role === 'PROFESSOR'" class="info-banner">
+            <div class="info-banner-icon">ℹ</div>
 
-        <div class="info-banner-content">
-            <p class="info-banner-title">Professor-Quiz</p>
-            <p class="info-banner-text">
-            Der von dir angegebene Punkteinsatz wird von deinem Budget abgezogen
-            und steht als <strong>Gewinn-Pot</strong> zur Verfügung.
-            </p>
-            <p class="info-banner-budget">
-            Dein aktuelles Budget:
-            <strong>{{ profile.points }} Punkte</strong>
-            </p>
-        </div>
-        </div>
+            <div class="info-banner-content">
+              <p class="info-banner-title">Professor-Quiz</p>
+              <p class="info-banner-text">
+                Der von dir angegebene Punkteinsatz wird von deinem Budget
+                abgezogen und steht als <strong>Gewinn-Pot</strong> zur
+                Verfügung.
+              </p>
+              <p class="info-banner-budget">
+                Dein aktuelles Budget:
+                <strong>{{ profile.points }} Punkte</strong>
+              </p>
+            </div>
+          </div>
 
           <!-- Info für Admins -->
-        <div v-if="profile?.role === 'ADMIN'" class="info-banner admin-info">
-        <div class="info-banner-icon">⚙</div>
+          <div v-if="profile?.role === 'ADMIN'" class="info-banner admin-info">
+            <div class="info-banner-icon">⚙</div>
 
-        <div class="info-banner-content">
-            <p class="info-banner-title">Admin-Wette</p>
-            <p class="info-banner-text">
-            Du kannst hier normale Quiz-Wetten erstellen. Studierende können je nach Ergebnis
-            Punkte gewinnen oder verlieren.
-            </p>
-        </div>
-        </div>
+            <div class="info-banner-content">
+              <p class="info-banner-title">Admin-Wette</p>
+              <p class="info-banner-text">
+                Du kannst hier normale Quiz-Wetten erstellen. Studierende können
+                je nach Ergebnis Punkte gewinnen oder verlieren.
+              </p>
+            </div>
+          </div>
 
           <form class="admin-form" @submit.prevent="saveQuizWette">
             <label>
@@ -173,7 +181,11 @@
               </label>
 
               <label>
-                {{ profile?.role === 'PROFESSOR' ? 'Gewinn-Pot (wird von deinem Budget abgezogen)' : 'Punktebudget' }}
+                {{
+                  profile?.role === "PROFESSOR"
+                    ? "Gewinn-Pot (wird von deinem Budget abgezogen)"
+                    : "Punktebudget"
+                }}
                 <input
                   v-model.number="form.punkteBudget"
                   type="number"
@@ -193,7 +205,11 @@
 
             <div class="admin-actions">
               <button class="btn" type="submit">
-                {{ editingQuizWetteId ? 'Änderungen speichern' : 'Quiz-Wette erstellen' }}
+                {{
+                  editingQuizWetteId
+                    ? "Änderungen speichern"
+                    : "Quiz-Wette erstellen"
+                }}
               </button>
 
               <button
@@ -229,7 +245,8 @@
 
         <section v-else>
           <p class="section-intro">
-            Angezeigt: {{ filteredQuizWetten.length }} von {{ quizWetten.length }}
+            Angezeigt: {{ filteredQuizWetten.length }} von
+            {{ quizWetten.length }}
             Quiz-Wetten
           </p>
 
@@ -254,7 +271,7 @@
                     <span class="status-badge">{{ quizWette.status }}</span>
                   </td>
                   <td>{{ quizWette.schwierigkeit }}</td>
-                  <td>{{ quizWette.professor?.name || 'Nicht zugeordnet' }}</td>
+                  <td>{{ quizWette.professor?.name || "Nicht zugeordnet" }}</td>
                   <td>
                     <div class="table-actions">
                       <button
@@ -281,9 +298,7 @@
 
           <article v-else class="text-card">
             <h2>Keine Quiz-Wetten gefunden</h2>
-            <p>
-              Passe die Suche an oder erstelle eine neue Quiz-Wette.
-            </p>
+            <p>Passe die Suche an oder erstelle eine neue Quiz-Wette.</p>
           </article>
         </section>
       </template>
@@ -292,7 +307,7 @@
 </template>
 
 <script>
-import { quizWetteApi, professorApi, userApi } from '../services/api'
+import { quizWetteApi, professorApi, userApi } from "../services/api";
 
 export default {
   data() {
@@ -300,41 +315,43 @@ export default {
       profile: null,
       professors: [],
       quizWetten: [],
-      searchTerm: '',
+      searchTerm: "",
       isCheckingProfile: true,
       isLoading: false,
-      loadError: '',
-      errorMessage: '',
-      successMessage: '',
+      loadError: "",
+      errorMessage: "",
+      successMessage: "",
       editingQuizWetteId: null,
-      selectedProfessorId: '',
+      selectedProfessorId: "",
       form: {
-        thema: '',
-        frage: '',
-        antwortA: '',
-        antwortB: '',
-        antwortC: '',
-        antwortD: '',
-        korrekteAntwort: '',
-        schwierigkeit: '',
-        status: 'ENTWURF',
+        thema: "",
+        frage: "",
+        antwortA: "",
+        antwortB: "",
+        antwortC: "",
+        antwortD: "",
+        korrekteAntwort: "",
+        schwierigkeit: "",
+        status: "ENTWURF",
         zeitlimitSekunden: 60,
         zeitlimitMinuten: 30,
-        punkteBudget: 100
-      }
-    }
+        punkteBudget: 100,
+      },
+    };
   },
 
   computed: {
     canManageQuizWetten() {
-      return this.profile?.role === 'ADMIN' || this.profile?.role === 'PROFESSOR'
+      return (
+        this.profile?.role === "ADMIN" || this.profile?.role === "PROFESSOR"
+      );
     },
 
     filteredQuizWetten() {
-      const search = this.searchTerm.toLowerCase()
+      const search = this.searchTerm.toLowerCase();
 
       return this.quizWetten.filter((quizWette) => {
-        const professorName = quizWette.professor?.name || ''
+        const professorName = quizWette.professor?.name || "";
 
         return (
           !search ||
@@ -343,131 +360,128 @@ export default {
           quizWette.status?.toLowerCase().includes(search) ||
           quizWette.schwierigkeit?.toLowerCase().includes(search) ||
           professorName.toLowerCase().includes(search)
-        )
-      })
-    }
+        );
+      });
+    },
   },
 
   async mounted() {
-    await this.loadProfile()
+    await this.loadProfile();
     if (this.canManageQuizWetten) {
-      await Promise.all([
-        this.loadProfessors(),
-        this.loadQuizWetten()
-      ])
+      await Promise.all([this.loadProfessors(), this.loadQuizWetten()]);
     }
   },
 
   methods: {
     async loadProfile() {
-      this.isCheckingProfile = true
+      this.isCheckingProfile = true;
 
       try {
-        this.profile = await userApi.getProfile()
+        this.profile = await userApi.getProfile();
       } catch (error) {
-        this.profile = null
-        console.error(error)
+        this.profile = null;
+        console.error(error);
       } finally {
-        this.isCheckingProfile = false
+        this.isCheckingProfile = false;
       }
     },
 
     async loadProfessors() {
       try {
-        this.professors = await professorApi.getAll()
+        this.professors = await professorApi.getAll();
       } catch (error) {
-        this.errorMessage = 'Professor:innen konnten nicht geladen werden.'
-        console.error(error)
+        this.errorMessage = "Professor:innen konnten nicht geladen werden.";
+        console.error(error);
       }
     },
 
     async loadQuizWetten() {
-      this.isLoading = true
-      this.loadError = ''
+      this.isLoading = true;
+      this.loadError = "";
 
       try {
-        this.quizWetten = await quizWetteApi.getAll()
+        this.quizWetten = await quizWetteApi.getAll();
       } catch (error) {
-        this.loadError = 'Quiz-Wetten konnten nicht geladen werden.'
-        console.error(error)
+        this.loadError = "Quiz-Wetten konnten nicht geladen werden.";
+        console.error(error);
       } finally {
-        this.isLoading = false
+        this.isLoading = false;
       }
     },
 
-buildPayload() {
-    const professor = this.professors.find(
-        (item) => item.id === this.selectedProfessorId
-    )
+    buildPayload() {
+      const professor = this.professors.find(
+        (item) => item.id === this.selectedProfessorId,
+      );
 
-    return {
+      return {
         ...this.form,
-        professor: professor || null
-    }
+        professor: professor || null,
+      };
     },
 
     validateForm() {
-        if (
-            !this.form.thema ||
-            !this.form.frage ||
-            !this.form.antwortA ||
-            !this.form.antwortB ||
-            !this.form.antwortC ||
-            !this.form.antwortD ||
-            !this.form.korrekteAntwort ||
-            !this.form.schwierigkeit ||
-            !this.form.status
-        ) {
-            return 'Bitte füllen Sie alle Pflichtfelder aus.'
-        }
+      if (
+        !this.form.thema ||
+        !this.form.frage ||
+        !this.form.antwortA ||
+        !this.form.antwortB ||
+        !this.form.antwortC ||
+        !this.form.antwortD ||
+        !this.form.korrekteAntwort ||
+        !this.form.schwierigkeit ||
+        !this.form.status
+      ) {
+        return "Bitte füllen Sie alle Pflichtfelder aus.";
+      }
 
-        if (!['A', 'B', 'C', 'D'].includes(this.form.korrekteAntwort)) {
-            return 'Die korrekte Antwort muss A, B, C oder D sein.'
-        }
+      if (!["A", "B", "C", "D"].includes(this.form.korrekteAntwort)) {
+        return "Die korrekte Antwort muss A, B, C oder D sein.";
+      }
 
-        if (!this.form.zeitlimitSekunden || this.form.zeitlimitSekunden <= 0) {
-            return 'Das Zeitlimit muss größer als 0 sein.'
-        }
+      if (!this.form.zeitlimitSekunden || this.form.zeitlimitSekunden <= 0) {
+        return "Das Zeitlimit muss größer als 0 sein.";
+      }
 
-        if (!this.form.punkteBudget || this.form.punkteBudget <= 0) {
-            return 'Das Punktebudget muss größer als 0 sein.'
-        }
+      if (!this.form.punkteBudget || this.form.punkteBudget <= 0) {
+        return "Das Punktebudget muss größer als 0 sein.";
+      }
 
-        return null
+      return null;
     },
 
     async saveQuizWette() {
-      this.errorMessage = ''
-      this.successMessage = ''
+      this.errorMessage = "";
+      this.successMessage = "";
 
-      const validationError = this.validateForm()
+      const validationError = this.validateForm();
       if (validationError) {
-        this.errorMessage = validationError
-        return
+        this.errorMessage = validationError;
+        return;
       }
 
       try {
-        const payload = this.buildPayload()
+        const payload = this.buildPayload();
 
         if (this.editingQuizWetteId) {
-          await quizWetteApi.update(this.editingQuizWetteId, payload)
-          this.successMessage = 'Quiz-Wette wurde aktualisiert.'
+          await quizWetteApi.update(this.editingQuizWetteId, payload);
+          this.successMessage = "Quiz-Wette wurde aktualisiert.";
         } else {
-          await quizWetteApi.create(payload)
-          this.successMessage = 'Quiz-Wette wurde erstellt.'
+          await quizWetteApi.create(payload);
+          this.successMessage = "Quiz-Wette wurde erstellt.";
         }
 
-        this.resetForm()
-        await this.loadQuizWetten()
+        this.resetForm();
+        await this.loadQuizWetten();
       } catch (error) {
-        this.errorMessage = 'Quiz-Wette konnte nicht gespeichert werden.'
-        console.error(error)
+        this.errorMessage = "Quiz-Wette konnte nicht gespeichert werden.";
+        console.error(error);
       }
     },
 
     startEditing(quizWette) {
-      this.editingQuizWetteId = quizWette.id
-      this.selectedProfessorId = quizWette.professor?.id || ''
+      this.editingQuizWetteId = quizWette.id;
+      this.selectedProfessorId = quizWette.professor?.id || "";
 
       this.form = {
         thema: quizWette.thema,
@@ -481,55 +495,55 @@ buildPayload() {
         status: quizWette.status,
         zeitlimitSekunden: quizWette.zeitlimitSekunden,
         zeitlimitMinuten: quizWette.zeitlimitMinuten,
-        punkteBudget: quizWette.punkteBudget
-      }
+        punkteBudget: quizWette.punkteBudget,
+      };
 
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
 
     async deleteQuizWette(quizWette) {
       const confirmed = window.confirm(
-        `Soll die Quiz-Wette "${quizWette.frage}" wirklich gelöscht werden?`
-      )
+        `Soll die Quiz-Wette "${quizWette.frage}" wirklich gelöscht werden?`,
+      );
 
       if (!confirmed) {
-        return
+        return;
       }
 
-      this.errorMessage = ''
-      this.successMessage = ''
+      this.errorMessage = "";
+      this.successMessage = "";
 
       try {
-        await quizWetteApi.delete(quizWette.id)
-        this.successMessage = 'Quiz-Wette wurde gelöscht.'
-        await this.loadQuizWetten()
+        await quizWetteApi.delete(quizWette.id);
+        this.successMessage = "Quiz-Wette wurde gelöscht.";
+        await this.loadQuizWetten();
       } catch (error) {
         this.errorMessage =
-          'Quiz-Wette konnte nicht gelöscht werden. Möglicherweise existieren bereits Teilnahmen.'
-        console.error(error)
+          "Quiz-Wette konnte nicht gelöscht werden. Möglicherweise existieren bereits Teilnahmen.";
+        console.error(error);
       }
     },
 
     resetForm() {
-      this.editingQuizWetteId = null
-      this.selectedProfessorId = ''
+      this.editingQuizWetteId = null;
+      this.selectedProfessorId = "";
 
       this.form = {
-        thema: '',
-        frage: '',
-        antwortA: '',
-        antwortB: '',
-        antwortC: '',
-        antwortD: '',
-        korrekteAntwort: '',
-        schwierigkeit: '',
-        status: 'ENTWURF',
+        thema: "",
+        frage: "",
+        antwortA: "",
+        antwortB: "",
+        antwortC: "",
+        antwortD: "",
+        korrekteAntwort: "",
+        schwierigkeit: "",
+        status: "ENTWURF",
         zeitlimitSekunden: 60,
-        punkteBudget: 100
-      }
-    }
-  }
-}
+        punkteBudget: 100,
+      };
+    },
+  },
+};
 </script>
 
 <style scoped>
