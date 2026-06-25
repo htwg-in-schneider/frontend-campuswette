@@ -14,10 +14,6 @@
           Profil
         </RouterLink>
 
-        <RouterLink v-if="isAuthenticated && profileData?.role !== 'PROFESSOR'" to="/ects-antraege">
-          ECTS
-        </RouterLink>
-
         <RouterLink v-if="isAuthenticated && profileData?.role === 'USER'" to="/student-dashboard">
           📊 Dashboard
         </RouterLink>
