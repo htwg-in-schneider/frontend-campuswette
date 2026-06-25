@@ -14,8 +14,8 @@
           Profil
         </RouterLink>
 
-        <RouterLink v-if="isAuthenticated && profileData?.role === 'USER'" to="/student-dashboard">
-          📊 Dashboard
+        <RouterLink v-if="isAuthenticated" to="/dashboard">
+          Dashboard
         </RouterLink>
 
         <RouterLink

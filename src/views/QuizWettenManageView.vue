@@ -376,54 +376,45 @@ export default {
       }
     },
 
-    buildPayload() {
-      const payload = {
-        ...this.form
-      }
+buildPayload() {
+    const professor = this.professors.find(
+        (item) => item.id === this.selectedProfessorId
+    )
 
-      // Nur für Admins: Professor hinzufügen (oder null für Admin-Betten)
-      if (this.profile?.role === 'ADMIN' && this.selectedProfessorId) {
-        const professor = this.professors.find(
-          (item) => item.id === this.selectedProfessorId
-        )
-        payload.professor = professor
-      }
-
-      return payload
+    return {
+        ...this.form,
+        professor: professor || null
+    }
     },
 
     validateForm() {
-      if (
-        !this.form.thema ||
-        !this.form.frage ||
-        !this.form.antwortA ||
-        !this.form.antwortB ||
-        !this.form.antwortC ||
-        !this.form.antwortD ||
-        !this.form.korrekteAntwort ||
-        !this.form.schwierigkeit ||
-        !this.form.status ||
-        (!this.form.zeitlimitSekunden || this.form.zeitlimitSekunden <= 0) ||
-        (!this.form.zeitlimitMinuten || this.form.zeitlimitMinuten <= 0) ||
-        (!this.form.punkteBudget || this.form.punkteBudget <= 0) ||
-        (this.profile?.role === 'ADMIN' && !this.selectedProfessorId)
-      ) {
-        return 'Bitte füllen Sie alle Pflichtfelder aus.'
-      }
+        if (
+            !this.form.thema ||
+            !this.form.frage ||
+            !this.form.antwortA ||
+            !this.form.antwortB ||
+            !this.form.antwortC ||
+            !this.form.antwortD ||
+            !this.form.korrekteAntwort ||
+            !this.form.schwierigkeit ||
+            !this.form.status
+        ) {
+            return 'Bitte füllen Sie alle Pflichtfelder aus.'
+        }
 
-      if (!['A', 'B', 'C', 'D'].includes(this.form.korrekteAntwort)) {
-        return 'Die korrekte Antwort muss A, B, C oder D sein.'
-      }
+        if (!['A', 'B', 'C', 'D'].includes(this.form.korrekteAntwort)) {
+            return 'Die korrekte Antwort muss A, B, C oder D sein.'
+        }
 
-      if (!this.form.zeitlimitSekunden || this.form.zeitlimitSekunden <= 0) {
-        return 'Das Zeitlimit muss größer als 0 sein.'
-      }
+        if (!this.form.zeitlimitSekunden || this.form.zeitlimitSekunden <= 0) {
+            return 'Das Zeitlimit muss größer als 0 sein.'
+        }
 
-      if (!this.form.punkteBudget || this.form.punkteBudget <= 0) {
-        return 'Das Punktebudget muss größer als 0 sein.'
-      }
+        if (!this.form.punkteBudget || this.form.punkteBudget <= 0) {
+            return 'Das Punktebudget muss größer als 0 sein.'
+        }
 
-      return null
+        return null
     },
 
     async saveQuizWette() {

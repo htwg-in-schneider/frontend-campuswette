@@ -4,6 +4,10 @@
       <article class="text-card">
         <h1>Dashboard wird geladen...</h1>
         <p>Deine Rolle wird geprüft und du wirst weitergeleitet.</p>
+
+        <p v-if="errorMessage" class="error-message">
+          {{ errorMessage }}
+        </p>
       </article>
     </div>
   </main>
@@ -13,9 +17,16 @@
 import { userApi } from '../services/api'
 
 export default {
+  data() {
+    return {
+      errorMessage: ''
+    }
+  },
+
   async mounted() {
     try {
       const profile = await userApi.getProfile()
+      console.log('DashboardRedirect Profil:', profile)
 
       if (profile.role === 'ADMIN') {
         this.$router.replace('/admin')
@@ -32,10 +43,10 @@ export default {
         return
       }
 
-      this.$router.replace('/profil')
+      this.errorMessage = `Unbekannte Rolle: ${profile.role}`
     } catch (error) {
-      console.error('Dashboard-Weiterleitung fehlgeschlagen:', error)
-      this.$router.replace('/profil')
+      this.errorMessage = 'Profil konnte nicht geladen werden.'
+      console.error('DashboardRedirect Fehler:', error)
     }
   }
 }
